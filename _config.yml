@@ -1,44 +1,26 @@
-title: "Jason Dibiase"
-description: "Quant research, volatility, and modeling notes."
-url: "https://dibiasej.github.io"
-baseurl: ""
+# Dependencies
+markdown:         redcarpet
+highlighter:      pygments
 
-remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+# Permalinks
+permalink:        pretty
+relative_permalinks: true
 
-plugins:
-  - jekyll-include-cache
-  - jekyll-feed
-  - jekyll-sitemap
-
-minimal_mistakes_skin: "air"   # try: "air", "contrast", "dark", "mint"
-
-defaults:
-  - scope:
-      path: ""
-      type: posts
-    values:
-      layout: single
-      author_profile: true
-      read_time: true
-      comments: false
-      share: false
-      related: true
+# Setup
+title:            Hyde
+tagline:          'A Jekyll theme'
+description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+url:              http://hyde.getpoole.com
+baseurl:          /
 
 author:
-  name: "Jason Dibiase"
-  bio: "Mathematical Finance @ BU. Volatility + derivatives research."
-  location: "US"
-  links:
-    - label: "GitHub"
-      icon: "fab fa-github"
-      url: "https://github.com/dibiasej"
-    - label: "LinkedIn"
-      icon: "fab fa-linkedin"
-      url: "https://www.linkedin.com/in/jasondibiase/"
+  name:           'Mark Otto'
+  url:            https://twitter.com/mdo
 
-# Optional top nav
-nav:
-  - title: "Blog"
-    url: /blog/
-  - title: "About"
-    url: /about/
+paginate:         5
+
+# Custom vars
+version:          2.1.0
+
+github:
+  repo:           https://github.com/poole/hyde
