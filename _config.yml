@@ -7,15 +7,15 @@ permalink:        pretty
 #relative_permalinks: true
 
 # Setup
-title:            Hyde
-tagline:          'A Jekyll theme'
-description:      'A brazen two-column <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that pairs a prominent sidebar with uncomplicated content. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+title:            Jason DiBiase
+tagline:          Research notes on volatility, options, models and things I have been interested in
+description:      This is my own personal blog where I post my current reseach and projects ranging from insights about options markets, computer programming and volatility. 
 url:              http://hyde.getpoole.com
 baseurl:          /
 
 author:
-  name:           'Mark Otto'
-  url:            https://twitter.com/mdo
+  name:           Jason DiBiase
+  url:            https://www.linkedin.com/in/jasondibiase/
 
 paginate:         5
 
