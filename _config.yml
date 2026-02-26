@@ -10,7 +10,7 @@ plugins:
   - jekyll-feed
   - jekyll-sitemap
 
-minimal_mistakes_skin: "default"   # try: "air", "contrast", "dark", "mint"
+minimal_mistakes_skin: "air"   # try: "air", "contrast", "dark", "mint"
 
 defaults:
   - scope:
