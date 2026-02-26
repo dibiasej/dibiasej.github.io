@@ -10,6 +10,7 @@ permalink:        pretty
 title:            Jason DiBiase
 tagline:          Research notes on volatility, options, models and things I have been interested in
 description:      This is my own personal blog where I post my current reseach and projects ranging from insights about options markets, computer programming and volatility. 
+sidebar_text:     Personal research, projects and code.
 url:              http://hyde.getpoole.com
 baseurl:          /
 
