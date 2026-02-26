@@ -1,0 +1,44 @@
+title: "Jason Dibiase"
+description: "Quant research, volatility, and modeling notes."
+url: "https://dibiasej.github.io"
+baseurl: ""
+
+remote_theme: "mmistakes/minimal-mistakes@4.26.2"
+
+plugins:
+  - jekyll-include-cache
+  - jekyll-feed
+  - jekyll-sitemap
+
+minimal_mistakes_skin: "default"   # try: "air", "contrast", "dark", "mint"
+
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: single
+      author_profile: true
+      read_time: true
+      comments: false
+      share: false
+      related: true
+
+author:
+  name: "Jason Dibiase"
+  bio: "Mathematical Finance @ BU. Volatility + derivatives research."
+  location: "US"
+  links:
+    - label: "GitHub"
+      icon: "fab fa-github"
+      url: "https://github.com/dibiasej"
+    - label: "LinkedIn"
+      icon: "fab fa-linkedin"
+      url: "https://www.linkedin.com/in/jasondibiase/"
+
+# Optional top nav
+nav:
+  - title: "Blog"
+    url: /blog/
+  - title: "About"
+    url: /about/
