@@ -258,3 +258,10 @@ a.sidebar-nav-item:focus {
 .sidebar {
   padding-top: 2rem;
 }
+
+/* Move sidebar content to the top */
+.sidebar-sticky {
+  position: relative;   /* override sticky/fixed behavior */
+  top: 0;
+  padding-top: 2rem;    /* adjust spacing from very top */
+}
