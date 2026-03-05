@@ -105,12 +105,22 @@ a.sidebar-nav-item:focus {
  * contents to the bottom of the sidebar in tablets and up.
  */
 
-@media (min-width: 48em) {
+/* @media (min-width: 48em) {
   .sidebar-sticky {
     position: absolute;
     right:  1rem;
     bottom: 1rem;
     left:   1rem;
+  }
+} */
+
+@media (min-width: 48em) {
+  .sidebar-sticky {
+    position: absolute;
+    top: 1rem;      /* <-- add */
+    right: 1rem;
+    left: 1rem;
+    bottom: auto;   /* <-- optional, but makes intent explicit */
   }
 }
 
@@ -257,11 +267,4 @@ a.sidebar-nav-item:focus {
 /* Fix sidebar content being cut off at the top */
 .sidebar {
   padding-top: 2rem;
-}
-
-/* Move sidebar content to the top */
-.sidebar-sticky {
-  position: relative;   /* override sticky/fixed behavior */
-  top: 0;
-  padding-top: 2rem;    /* adjust spacing from very top */
 }
