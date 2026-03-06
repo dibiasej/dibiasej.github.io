@@ -4,28 +4,14 @@ title: About
 permalink: /about/
 ---
 
-<p class="message">
-  Hey there! This page is included as an example. Feel free to customize it for your own use upon downloading. Carry on!
-</p>
 
-In the novel, *The Strange Case of Dr. Jeykll and Mr. Hyde*, Mr. Poole is Dr. Jekyll's virtuous and loyal butler. Similarly, Poole is an upstanding and effective butler that helps you build Jekyll themes. It's made by [@mdo](https://twitter.com/mdo).
+Hi, my name is Jason DiBiase. Welcome to my website, Dirty Vol Quant. I enjoy reading research papers related to volatility and derivatives and implementing them in Python. So far, the majority of my work can be found in my main project, py_op, which is a Python options research infrastructure. Please feel free to use or adapt the code.
 
-There are currently two themes built on Poole:
+My blogs can be found on the home page or under the Post Archive. I mainly write about volatility, but I occasionally plan to cover other topics such as efficient Python coding and mathematical concepts.
 
-* [Hyde](http://hyde.getpoole.com)
-* [Lanyon](http://lanyon.getpoole.com)
+Currently I am working on:
 
-Learn more and contribute on [GitHub](https://github.com/poole).
-
-## Setup
-
-Some fun facts about the setup of this project include:
-
-* Built for [Jekyll](http://jekyllrb.com)
-* Developed on GitHub and hosted for free on [GitHub Pages](https://pages.github.com)
-* Coded with [Sublime Text 2](http://sublimetext.com), an amazing code editor
-* Designed and developed while listening to music like [Blood Bros Trilogy](https://soundcloud.com/maddecent/sets/blood-bros-series)
-
-Have questions or suggestions? Feel free to [open an issue on GitHub](https://github.com/poole/issues/new) or [ask me on Twitter](https://twitter.com/mdo).
-
-Thanks for reading!
+ * Turning py_op into a free Python library
+ * Option/Volatility strategy backtester
+ * Researching advanced volatility models and how they can be applied in trading and other use cases
+ * Finding a job
