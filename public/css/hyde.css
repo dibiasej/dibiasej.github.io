@@ -268,3 +268,18 @@ a.sidebar-nav-item:focus {
 .sidebar {
   padding-top: 2rem;
 }
+
+/* Control main blog content width */
+.post,
+.page {
+  max-width: 42rem;
+}
+
+/* Control image size inside blog posts */
+.post img,
+.page img {
+  max-width: 80%;
+  height: auto;
+  margin-left: auto;
+  margin-right: auto;
+}
