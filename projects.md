@@ -4,7 +4,6 @@ title: Projects
 permalink: /projects/
 ---
 
-- VolWorld (coming soon)
-- py\_op (options research infrastructure)
+- py\_op
 - Roughness risk premium
-- All things Weighted Monte Carlo
+<!-- Weighted Monte Carlo Exotics Pricer -->
