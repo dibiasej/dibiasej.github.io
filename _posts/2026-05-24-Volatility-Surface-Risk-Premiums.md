@@ -43,12 +43,12 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 ## Skew/Skewness Risk Premium
 
-If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. It is important to note that unlike vrp there is no agreed upon metric used to quantify this but in this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (realized) and expected skewness/skew under the physical measure (implied). 
+If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. It is important to note that unlike vrp there is no agreed upon metric used to quantify this but in this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). This measurement of risk premium can also be interpreted as the expected payoff from a skew swap
 
 We will use the following metrics as our estimates:
 
 ###### Implied Skew: 
--Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. If you are able to calibrate a stochastic volatility model you can approximate this by multiplying parameters rho*sigma*eta which loosely represent spot-vol cov*atm iv*vol of vol.
+- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. If you are able to calibrate a stochastic volatility model you can approximate this by multiplying parameters rho*sigma*eta which loosely represent spot-vol cov*atm iv*vol of vol.
 - Normalized 90% - 110% moneyness IV skew slope 
 $$
 90% put iv - 110% call iv / ((90% put strike - 110% call strike) / F)
@@ -59,6 +59,7 @@ $$
 $$
 \sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
 $$
+- Floating leg of a dynamically rebalanced skew swap, scaled by the initial variance-swap fixed leg
 
 ###### Implied Skewness:
 - Fixed leg of a skew swap: There are many different ways to estimate this and many papers have been written that go into this topic on length but here I will present only a few.
@@ -69,3 +70,16 @@ $$
 \frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
 {\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
 $$
+
+And we provide three different quantities used to estimate the srp:
+
+1. Implied spot-vol covariance - realized spot-vol covariance
+
+2. Skew swap Fixed leg - floating leg
+
+3. Skew swap fixed leg - realized third moment of the historical return distribution
+
+### Fixed Leg of a Skew Swap
+
+I think it is important to pause for a little bit in order to briefly talk about the fixed leg of a skew swap
+
