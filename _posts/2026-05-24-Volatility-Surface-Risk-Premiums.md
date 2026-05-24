@@ -20,8 +20,14 @@ date: 2026-05-24
 
 ###### The most famous risk premium is probably the equity risk premium which is the reward investors get for buying stocks rather than parking your money in a risk free asset or bank account.
 
-###### There are numerous risk premiums related to the volatility surface, if we can derive a moment related to the risk neutral density and the realized log return distribution there is a risk premium related to it. In this post I want to discuss the risk premium related to the first four moments of the distribution and metrics used to quantify them. These are the variance risk premium (vrp), skew risk premium, skewness risk premium and vol of vol risk premium (vvrp). Many different sources will interchange skew and skewness and some consider them seperate things so it is hard to pin down a canonical definition for them. In this post I consider skewness to be related to the shape of a distribution and skew related to the slope of the implied volatility curve or the spot-vol covariance.
+###### There are numerous risk premiums related to the volatility surface, if we can derive a moment related to the risk neutral density and the realized log return distribution there is a risk premium related to it. In this post I want to discuss the risk premium related to the first four moments of the distribution and metrics used to quantify them. 
+
+###### These are the variance risk premium (vrp), skew risk premium, skewness risk premium and vol of vol risk premium (vvrp). Many different sources will interchange skew and skewness and some consider them seperate things so it is hard to pin down a canonical definition for them. In this post I consider skewness to be related to the shape of a distribution and skew related to the slope of the implied volatility curve or the spot-vol covariance.
 
 ## Variance Risk Premium
 
-###### In the world of options and volatility this is by far the most commonly know risk premium and is measured by the difference in implied volatility and realized volatility
+###### In the world of options and volatility this is by far the most commonly known risk premium and is measured by the difference in implied volatility and realized volatility. We can measure realized volatility as the sume of the squared log returns and for the implied component I find it is best to use the fixed leg of the corresponding maturities variance swap which is approximated using a list of otm puts and calls.
+
+###### In the below images we have the 21 day rolling realized volatility and three metrics for our implied part, a rolling iv, the rolling fixed leg of a variance swap and the instantaneous vol calculated from the GVV model (more on this in a future post). These are all calculated from a linear interpolation of the 30 dte closest maturity options.
+
+![Realized Volatility](/assets/images/SPY-Rolling-Realized-Vol-Risk-Premium-Post.png.png)
