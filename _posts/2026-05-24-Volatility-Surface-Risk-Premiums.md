@@ -48,17 +48,17 @@ If the variance risk premium measures the premia related to dispersion then the 
 We will use the following metrics as our estimates:
 
 ###### Implied Skew: 
-- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. If you are able to calibrate a stochastic volatility model you can approximate this by multiplying parameters rho*sigma*eta which loosely represent spot-vol cov*atm iv*vol of vol.
+- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. You can approximate this by multiplying parameters representing spot-vol cov, instantaneous vol and vol of vol.
 - Normalized 90% - 110% moneyness IV skew slope 
 $$
-90\% put iv - 110\% call iv / ((90\% put strike - 110\% call strike) / F)
+\frac{\text{90 put IV} - \text{110 call IV}}
+{\left(\text{90 put strike} - \text{110 call strike}\right) / F}
 $$
 
 ###### Realized Skew: 
 - The historical covariance between instantaneous vol and log returns: 
 $$
-\frac{\text{90\% put IV} - \text{110\% call IV}}
-{\left(\text{90\% put strike} - \text{110\% call strike}\right) / F}
+\sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
 $$
 - Floating leg of a dynamically rebalanced skew swap, scaled by the initial variance-swap fixed leg
 
