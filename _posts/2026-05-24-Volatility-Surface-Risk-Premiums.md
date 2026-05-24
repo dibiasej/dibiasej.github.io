@@ -38,3 +38,9 @@ In the below images we have the 21 day rolling realized volatility and three met
 We then find the rolling volatility risk premium using the difference between the fixed leg variance swap strike, and the rolling realized volatility. Note we shift back the realized volatility back to match the date projected by the implied. 
 
 ![Volatility Risk Premium](/assets/images/SPY-Variance-Risk-Premium-Post-2026-05-24.png)
+
+I wont talk any more about the vrp because it is widely talked about and researched and I doubt there is much more value to be added.
+
+## Skew/Skewness Risk Premium
+
+If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry
