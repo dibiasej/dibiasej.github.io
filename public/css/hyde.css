@@ -138,7 +138,7 @@ a.sidebar-nav-item:focus {
 
 @media (min-width: 48em) {
   .content {
-    max-width: 50rem;
+    max-width: 60rem;
     margin-left: 20rem;
     margin-right: 2rem;
   }
@@ -278,7 +278,7 @@ a.sidebar-nav-item:focus {
 /* Control image size inside blog posts */
 .post img,
 .page img {
-  max-width: 80%;
+  max-width: 65%;
   height: auto;
   margin-left: auto;
   margin-right: auto;

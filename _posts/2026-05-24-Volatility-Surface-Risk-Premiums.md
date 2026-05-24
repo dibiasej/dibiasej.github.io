@@ -30,4 +30,4 @@ In the world of options and volatility this is by far the most commonly known ri
 
 In the below images we have the 21 day rolling realized volatility and three metrics for our implied part, a rolling iv, the rolling fixed leg of a variance swap and the instantaneous vol calculated from the GVV model (more on this in a future post). These are all calculated from a linear interpolation of the 30 dte closest maturity options.
 
-![Realized Volatility](/assets/images/SPY-Rolling-Realized-Vol-Risk-Premium-Post.png)
+![Realized Volatility](/assets/images/SPY-Variance-Risk-Premium-Post-2026-05-24.png)
