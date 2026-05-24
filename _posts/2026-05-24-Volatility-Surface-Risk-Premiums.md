@@ -13,10 +13,13 @@ In investing and trading a risk premium is some type of compensation investors r
 
 In general there are four things that need to occur in order for something to be a risk premium. 
 
-\1. It needs to persist over time, 
-\2. It needs to occurr over many asset classes.
-\3. It needs to be scalable in size
-\4. There needs to be a economic rationale to support it. 
+1. It needs to persist over time, 
+
+2. It needs to occurr over many asset classes.
+
+3. It needs to be scalable in size
+
+4. There needs to be a economic rationale to support it. 
 
 The most famous risk premium is probably the equity risk premium which is the reward investors get for buying stocks rather than parking your money in a risk free asset or bank account.
 
@@ -30,4 +33,8 @@ In the world of options and volatility this is by far the most commonly known ri
 
 In the below images we have the 21 day rolling realized volatility and three metrics for our implied part, a rolling iv, the rolling fixed leg of a variance swap and the instantaneous vol calculated from the GVV model (more on this in a future post). These are all calculated from a linear interpolation of the 30 dte closest maturity options.
 
-![Realized Volatility](/assets/images/SPY-Variance-Risk-Premium-Post-2026-05-24.png)
+![Realized Volatility](/assets/images/SPY-Realized-Implied-Volatility-Risk-Premium-Post-2026-05-24.png)
+
+We then find the rolling volatility risk premium using the difference between the fixed leg variance swap strike, and the rolling realized volatility. Note we shift back the realized volatility back to match the date projected by the implied. 
+
+![Volatility Risk Premium](/assets/images/SPY-Variance-Risk-Premium-Post-2026-05-24.png)
