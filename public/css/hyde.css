@@ -209,8 +209,8 @@ a.sidebar-nav-item:focus {
    * image fills most of the post,
    * but does not become enormous.
    */
-  width: 88%;
-  max-width: 820px;
+  width: 95%;
+  max-width: 900px;
   height: auto;
 
   margin-top: 1.5rem;

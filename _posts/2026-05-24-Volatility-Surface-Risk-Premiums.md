@@ -43,4 +43,9 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 ## Skew/Skewness Risk Premium
 
-If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry
+If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. It is important to note that unlike vrp there is no agreed upon metric used to quantify this but in this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (realized) and expected skewness/skew under the physical measure (implied). 
+
+We will use the following metrics as our estimates:
+
+###### Implied Skew: Implied spot-vol covaraince (found from a implied parameter calibrated from SABR, GVV or other model), Normalized 90% - 110% moneyness IV skew slope
+###### Realized Skew: The historical covariance between instantaneous vol and log returns
