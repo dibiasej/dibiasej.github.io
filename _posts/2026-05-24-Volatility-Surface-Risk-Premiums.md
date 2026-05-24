@@ -48,10 +48,24 @@ If the variance risk premium measures the premia related to dispersion then the 
 We will use the following metrics as our estimates:
 
 ###### Implied Skew: 
-    - Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. If you are able to calibrate a stochastic volatility model you can approximate this by multiplying parameters rho*sigma*eta which loosely represent spot-vol cov*atm iv*vol of vol.
-    - Normalized 90% - 110% moneyness IV skew slope
-    $$90% put iv - 110% call iv / ((90% put strike - 110% call strike) / F)$$
+-Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. If you are able to calibrate a stochastic volatility model you can approximate this by multiplying parameters rho*sigma*eta which loosely represent spot-vol cov*atm iv*vol of vol.
+- Normalized 90% - 110% moneyness IV skew slope 
+$$
+90% put iv - 110% call iv / ((90% put strike - 110% call strike) / F)
+$$
 
 ###### Realized Skew: 
-    - The historical covariance between instantaneous vol and log returns: 
-    $$\sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i$$
+- The historical covariance between instantaneous vol and log returns: 
+$$
+\sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
+$$
+
+###### Implied Skewness:
+- Fixed leg of a skew swap: There are many different ways to estimate this and many papers have been written that go into this topic on length but here I will present only a few.
+
+###### Realized Skewness:
+- Third moment of the historical return distribution: 
+$$
+\frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
+{\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
+$$
