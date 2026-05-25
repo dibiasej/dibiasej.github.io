@@ -184,7 +184,18 @@ I think it is worth pausing briefly to clarify the fixed leg of a skew swap. Abo
   \right)
   $$
 
-- And Kozhan, Neuberger, and Schneider (2012)
+- And Kozhan, Neuberger, and Schneider (2012), where $$v^{E}_{t,T}$$ is the fixed leg of an entropy contract, and $$v^{L}_{t,T}$$ is our favorite the variance swap.
+
+  $$
+  \operatorname{skew}_{t,T}
+  =
+  3
+  \frac{
+  v^{E}_{t,T} - v^{L}_{t,T}
+  }{
+  \left(v^{L}_{t,T}\right)^{3/2}
+  }
+  $$
 
   $$
   v^{L}_{t,T}
@@ -214,13 +225,7 @@ I think it is worth pausing briefly to clarify the fixed leg of a skew swap. Abo
   \Delta I(K_i)
   $$
 
-  $$
-  \operatorname{skew}_{t,T}
-  =
-  3
-  \frac{
-  v^{E}_{t,T} - v^{L}_{t,T}
-  }{
-  \left(v^{L}_{t,T}\right)^{3/2}
-  }
-  $$
+
+  I know this is a whole lot of math but each formula really is just a different weighting of OTM puts and calls. You can look on my github under py_op to see how I coded these. Below we show how these look plotted over time for estimates using daily S&P 500 options data, where we rebalance the option holdings daily.
+
+![Skew Risk Premium](/assets/images/skew_swap_strikes-2026-05-25.png)
