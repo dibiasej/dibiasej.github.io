@@ -95,6 +95,7 @@ $$
 {\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
 $$
 
+
 And we provide three different quantities used to estimate the srp:
 
 1. Implied spot-vol covariance - realized spot-vol covariance
