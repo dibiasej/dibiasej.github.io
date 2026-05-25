@@ -228,4 +228,16 @@ I think it is worth pausing briefly to clarify the fixed leg of a skew swap. Abo
 
   I know this is a whole lot of math but each formula really is just a different weighting of OTM puts and calls. You can look on my github under py_op to see how I coded these. Below we show how these look plotted over time for estimates using daily S&P 500 options data, where we rebalance the option holdings daily.
 
-![Skew Risk Premium](/assets/images/skew_swap_strikes-2026-05-25.png)
+![Skew Swap Fixed Legs](/assets/images/skew_swap_strikes-2026-05-25.png)
+
+As you can see the model-free implied skew derived from Ito (2025) and Kozhan, Neuberger, and Schneider (2012) are extremely close so this is a good sign. Now we move onto our realized and implied skew/skewness estimates.
+
+### Realized/Implied Estimates
+
+Below we show rolling metrics for realized and implied spot-vol correlation, where the realized correlation is estimated using historical log returns and ATM IV and the implied correlation is estimated using a calibrated parameter from a stochastic volatility model, or directly taken from the skew curve.
+
+![Spot Vol Correlations](/assets/images/spot_vol_correlations-2026-05-25.png)
+
+It was extremely suprising to me to see how close the implied spot-vol correlation was for each of the metrics. Next we show the same metrics except the covariance version which is easier to compare across implied and realized, and we show the difference in the two which we use to estimate skew risk premium. 
+
+![Spot Vol Covariances](/assets/images/spot_vol_covariance_skew_risk_premium-2026-05-25.png)
