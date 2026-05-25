@@ -240,10 +240,38 @@ Below we show rolling metrics for realized and implied spot-vol correlation, whe
 
 Notice how closely the different implied spot-vol correlation measures track each other. The GVV estimate, SABR estimate, and the 90%-110% moneyness skew approximation all show similar dynamics, suggesting that each method is capturing a similar implied spot-vol relationship
 
-Next, I show our three different verions of estimating the skew/skewness risk premium as defined above. The first verison uses differences in realizes and implied spot-vol covariance, the second follows Ito (2025) and uses the difference between the model free implied skew and third moment of historical log returns, and the last follows Kozhan, Neuberger, and Schneider (2012)
+Next, I show our three different verions of estimating the skew/skewness risk premium as defined above. The first verison uses differences in realized and implied spot-vol covariance, the second follows Ito (2025) and uses the difference between the model free implied skew and third moment of historical log returns, and the last follows Kozhan, Neuberger, and Schneider (2012)
 
 ![Spot Vol Covariances](/assets/images/spot_vol_covariance_skew_risk_premium-2026-05-25.png)
 
 ![Akio Ito Skew Risk Premium](/assets/images/akio_implied_realized_skewness_risk_premium-2026-05-25.png)
 
 ![Neuberger Skew Risk Premium](/assets/images/neuberger_implied_realized_skew_risk_premium-2026-05-25.png)
+
+For the realized third moment estimate I use close to close prices which may be causing a high variance in the estimate, so while generally it is correct, you can increase the estimation accuracy if you use intraday prices.
+
+Out of all the volatility-surface-related premia discussed in this post, the skew/skewness risk premium has the least consensus around how it should be estimated. Hopefully, this section has outlined a few useful metrics that you can apply in your own research. Now we move on to the last premium I want to discuss, the volatility of volatility risk premium.
+
+## Volatility of Volatility Risk Premium (VVRP)
+
+Similar to the skew risk premium, the vol-of-vol risk premium does not have any consensus metric for how it is estimated. But unlike the skew risk premium, the relaized and implied metrics related to the vvrp are a lot easier to pin down. For example the implied vol-of-vol can generally be estimated by calibrating parameters from some stochastic volatility model, And the realized vol-of-vol can be estimated using a rolling historical statistical estimate.
+
+In this section we will look at three metrics for the implied vol-of-vol and three for the realized.
+
+###### Implied Vol-of-Vol:
+- GVV estimated implied vol-of-vol parameter
+- SABR estimated implied vol-of-vol parameter
+- VVIX Index 
+
+###### Realized Vol-of-Vol
+- Rolling 21 day volatility of Implied volatility
+- Rolling 21 day volatility of a Variance Swap
+- Rolling 21 day volatility of the close-to-close volatility estimate
+
+These rolling realized metrics are calculted in a similar way that the close-to-close realized volatility is calculated. Just like skew there are many potential ways to go about this and I only wanted to outline a few in this post. 
+
+I want to add that there is a good paper by the Fed about estimating the volatility risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future
+
+![Vol of Vol](/assets/images/implied_realized_vol_of_vol-2026-025-25.png)
+
+## Conclusion
