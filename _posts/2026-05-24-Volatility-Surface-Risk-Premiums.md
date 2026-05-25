@@ -43,9 +43,9 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 ## Skew/Skewness Risk Premium
 
-If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. It is important to note that unlike vrp there is no agreed upon metric used to quantify this but in this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium This is also be interpreted as the expected payoff from a skew swap 
+If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable. In this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium.
 
-Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized) and I quantify this following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and the model-free VRP/SRP approach in Ito (2025).
+Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). I quantify this in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like risk reversals or some weighting of short OTM puts and long OTM calls.
 
 We will use the following metrics as our estimates:
 
@@ -93,7 +93,7 @@ We will use the following metrics as our estimates:
   - Following Kozhan, Neuberger, and Schneider (2012)
 
 ###### Implied Skewness:
-- Fixed leg of a skew swap: There are many different ways to estimate this and many papers have been written that go into this topic on length but here I will present only a few.
+- Fixed leg of a skew swap: There are many different ways to estimate this and many papers have been written that go into this topic on length but here I will present a few below.
 
 ###### Realized Skewness:
 - Third moment of the historical return distribution: 
@@ -102,6 +102,8 @@ We will use the following metrics as our estimates:
   \frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
   {\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
   $$
+
+  - Following Ito (2025)
 
 
 And we provide three different quantities used to estimate the srp:
@@ -114,5 +116,111 @@ And we provide three different quantities used to estimate the srp:
 
 ### Fixed Leg of a Skew Swap
 
-I think it is important to pause for a little bit in order to briefly talk about the fixed leg of a skew swap
+I think it is worth pausing briefly to clarify the fixed leg of a skew swap. Above, I wrote that implied skewness is found using the fixed leg of a skew swap, but that is not completely accurate. Some sources use terms like implied skew, implied skewness, and skew swap fixed leg somewhat interchangeably, but the exact interpretation depends on the calculation methodology. Generally the fixed leg of a skew swap is approximated using a strip of OTM puts and calls similar to the fixed leg of a variance swap except with a different weighting scheme. Below I present three different formulas for this approximation
 
+- Model-free implied skewness following Ito (2025), who defines skewness using model-free risk-neutral moments estimated from option prices: 
+
+  $$
+  P_1 = \mu = E[R]
+  = e^{rT}
+  \left(
+  -\sum_i \frac{1}{K_i^2} Q_{K_i}\Delta K_i
+  \right)
+  + \varepsilon_1
+  $$
+
+  $$
+  P_2 = E[R^2]
+  = e^{rT}
+  \left(
+  \sum_i \frac{2}{K_i^2}
+  \left(
+  1 - \ln\frac{K_i}{F_0}
+  \right)
+  Q_{K_i}\Delta K_i
+  \right)
+  + \varepsilon_2
+  $$
+
+  $$
+  P_3 = E[R^3]
+  = e^{rT}
+  \left(
+  \sum_i \frac{3}{K_i^2}
+  \left\{
+  2\ln\frac{K_i}{F_0}
+  -
+  \ln^2\left(\frac{K_i}{F_0}\right)
+  \right\}
+  Q_{K_i}\Delta K_i
+  \right)
+  + \varepsilon_3
+  $$
+
+  $$
+  S =
+  \frac{
+  P_3 - 3P_1P_2 + 2P_1^3
+  }{
+  \left(P_2 - P_1^2\right)^{3/2}
+  }
+  $$
+
+- Fair skew swap strike following Lee (2024), where the skew swap strike is replicated using a weighted strip of OTM puts and calls:
+
+  $$
+  K_s =
+  \frac{2}{T S_0}
+  \left(
+  \int_{0}^{S_0}
+  \operatorname{put}(S_0, K)
+  \frac{1}{K^2}
+  (S_0 - K)\, dK
+  +
+  \int_{S_0}^{\infty}
+  \operatorname{call}(S_0, K)
+  \frac{1}{K^2}
+  (S_0 - K)\, dK
+  \right)
+  $$
+
+- And Kozhan, Neuberger, and Schneider (2012)
+
+  $$
+  v^{L}_{t,T}
+  =
+  2
+  \sum_{K_i \leq F_{t,T}}
+  \frac{P_{t,T}(K_i)}{B_{t,T}K_i^2}
+  \Delta I(K_i)
+  +
+  2
+  \sum_{K_i > F_{t,T}}
+  \frac{C_{t,T}(K_i)}{B_{t,T}K_i^2}
+  \Delta I(K_i)
+  $$
+
+  $$
+  v^{E}_{t,T}
+  =
+  2
+  \sum_{K_i \leq F_{t,T}}
+  \frac{P_{t,T}(K_i)}{B_{t,T}K_iF_{t,T}}
+  \Delta I(K_i)
+  +
+  2
+  \sum_{K_i > F_{t,T}}
+  \frac{C_{t,T}(K_i)}{B_{t,T}K_iF_{t,T}}
+  \Delta I(K_i)
+  $$
+
+  $$
+  \operatorname{skew}_{t,T}
+  =
+  3
+  \frac{
+  v^{E}_{t,T} - v^{L}_{t,T}
+  }{
+  \left(v^{L}_{t,T}\right)^{3/2}
+  }
+  $$
