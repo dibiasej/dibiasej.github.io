@@ -49,51 +49,55 @@ We will use the following metrics as our estimates:
 
 ###### Implied Skew: 
 - Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. We approximate this using calibrated implied parameters from SABR and GVV stochastic volatility models. You can approximate this by multiplying parameters representing spot-vol cov, instantaneous vol and vol of vol.
-- Normalized 90% - 110% moneyness IV skew slope 
-$$
-\frac{\text{90 put IV} - \text{110 call IV}}
-{\left(\text{90 put strike} - \text{110 call strike}\right) / F}
-$$
+- Normalized 90% - 110% moneyness IV skew slope
+ 
+  $$
+  \frac{\text{90 put IV} - \text{110 call IV}}
+  {\left(\text{90 put strike} - \text{110 call strike}\right) / F}
+  $$
 
 ###### Realized Skew: 
 - The historical covariance between instantaneous vol and log returns: 
-$$
-\sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
-$$
+
+  $$
+  \sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
+  $$
+
 - Floating leg of a dynamically rebalanced skew swap, scaled by the initial variance-swap fixed leg
 
-$$
-\operatorname{rskew}_{t,T}
-=
-\frac{rs_{t,T}}{\left(v^{L}_{t,T}\right)^{3/2}}
-$$
+  $$
+  \operatorname{rskew}_{t,T} 
+  =
+  \frac{rs_{t,T}}{\left(v^{L}_{t,T}\right)^{3/2}}
+  $$
 
-$$
-rs_{t,T}
-=
-\sum_{i=t}^{T}
-\left[
-\delta v^{E}_{i,T}
-\left(e^{r_{i,i+1}} - 1\right)
-+
-6
-\left(
-2 - 2e^{r_{i,i+1}}
-+ r_{i,i+1}
-+ r_{i,i+1}e^{r_{i,i+1}}
-\right)
-\right]
-$$
+  $$
+  rs_{t,T}
+  =
+  \sum_{i=t}^{T}
+  \left[
+  \delta v^{E}_{i,T}
+  \left(e^{r_{i,i+1}} - 1\right)
+  +
+  6
+  \left(
+  2 - 2e^{r_{i,i+1}}
+  + r_{i,i+1}
+  + r_{i,i+1}e^{r_{i,i+1}}
+  \right)
+  \right]
+  $$
 
 ###### Implied Skewness:
 - Fixed leg of a skew swap: There are many different ways to estimate this and many papers have been written that go into this topic on length but here I will present only a few.
 
 ###### Realized Skewness:
 - Third moment of the historical return distribution: 
-$$
-\frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
-{\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
-$$
+
+  $$
+  \frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
+  {\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
+  $$
 
 
 And we provide three different quantities used to estimate the srp:
