@@ -45,7 +45,7 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable. In this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium.
 
-Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). I quantify this in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like risk reversals or some weighting of short OTM puts and long OTM calls.
+Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). I quantify this in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
 We will use the following metrics as our estimates:
 
@@ -254,9 +254,9 @@ Out of all the volatility-surface-related premia discussed in this post, the ske
 
 ## Volatility of Volatility Risk Premium (VVRP)
 
-Similar to the skew risk premium, the vol-of-vol risk premium does not have any consensus metric for how it is estimated. But unlike the skew risk premium, the relaized and implied metrics related to the vvrp are a lot easier to pin down. For example the implied vol-of-vol can generally be estimated by calibrating parameters from some stochastic volatility model, And the realized vol-of-vol can be estimated using a rolling historical statistical estimate.
+Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. However, the realized and implied components of VVRP are usually easier to define. Implied vol-of-vol can be estimated from the calibration parameters of a stochastic volatility model, or from option-implied measures such as VVIX. Realized vol-of-vol can then be estimated using rolling historical measures, such as the volatility of realized volatility, changes in implied volatility, or variance-swap levels. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
 
-In this section we will look at three metrics for the implied vol-of-vol and three for the realized.
+Here I provide three metrics for the implied vol-of-vol and three for the realized.
 
 ###### Implied Vol-of-Vol:
 - GVV estimated implied vol-of-vol parameter
@@ -268,10 +268,12 @@ In this section we will look at three metrics for the implied vol-of-vol and thr
 - Rolling 21 day volatility of a Variance Swap
 - Rolling 21 day volatility of the close-to-close volatility estimate
 
-These rolling realized metrics are calculted in a similar way that the close-to-close realized volatility is calculated. Just like skew there are many potential ways to go about this and I only wanted to outline a few in this post. 
+These rolling realized metrics are calculated in a similar way to close-to-close realized volatility. Just like with skew, there are many possible approaches, so I only wanted to outline a few in this post. One thing to keep in mind is that the SABR model includes a local-volatility/CEV component, which can affect how the implied parameters should be scaled. This may help explain why the SABR vol-of-vol estimate appears much higher than both the VVIX and GVV vol-of-vol estimates shown below.
 
-I want to add that there is a good paper by the Fed about estimating the volatility risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future
+I want to add that there is a good paper by the Fed  about estimating the vol-of-vol risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future, Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*.
 
 ![Vol of Vol](/assets/images/implied_realized_vol_of_vol-2026-025-25.png)
 
 ## Conclusion
+
+## References
