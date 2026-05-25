@@ -238,6 +238,12 @@ Below we show rolling metrics for realized and implied spot-vol correlation, whe
 
 ![Spot Vol Correlations](/assets/images/spot_vol_correlations-2026-05-25.png)
 
-It was extremely suprising to me to see how close the implied spot-vol correlation was for each of the metrics. Next we show the same metrics except the covariance version which is easier to compare across implied and realized, and we show the difference in the two which we use to estimate skew risk premium. 
+Notice how closely the different implied spot-vol correlation measures track each other. The GVV estimate, SABR estimate, and the 90%-110% moneyness skew approximation all show similar dynamics, suggesting that each method is capturing a similar implied spot-vol relationship
+
+Next, I show our three different verions of estimating the skew/skewness risk premium as defined above. The first verison uses differences in realizes and implied spot-vol covariance, the second follows Ito (2025) and uses the difference between the model free implied skew and third moment of historical log returns, and the last follows Kozhan, Neuberger, and Schneider (2012)
 
 ![Spot Vol Covariances](/assets/images/spot_vol_covariance_skew_risk_premium-2026-05-25.png)
+
+![Akio Ito Skew Risk Premium](/assets/images/akio_implied_realized_skewness_risk_premium-2026-05-25.png)
+
+![Neuberger Skew Risk Premium](/assets/images/neuberger_implied_realized_skew_risk_premium-2026-05-25.png)
