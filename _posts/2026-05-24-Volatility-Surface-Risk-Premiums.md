@@ -6,10 +6,14 @@ date: 2026-05-24
 
 ## Intro
 
-Hi all, this is my first shot at writing and hopefully something I will continue to do. I plan on adding many posts about volatility, derivatvies and other quant finance related topics and maybe some cs and math topics as well. I am by no means a seasoned proffesional and currently still in my learning journey so if you see something in any of my posts you disagree with or think is blatantly wrong please share with me, also if you just want to reach out and connect my dms on LinkedIn and X are always open. If you are a seasoned proffesional and did somehow end up here please don't hesitate to call me out on any stupid things, this is a learning journey and I hope myself and the readers can get something out of it. All of the code and charts in this post can be found on my github, you can look at Volatility-Surface-Risk-Premiums for results related to this post and py_op for the backend calculations. Now onto the good stuff, were going to look into risk premiums specifically related to volatility surfaces.
+Hi all, this is my first shot at writing, and hopefully something I’ll continue doing. I am by no means a seasoned professional, and I am still very much in the learning process. So, if you read anything in my posts that you disagree with, or think is blatantly wrong, please feel free to reach out and share your thoughts. Also, if you just want to connect, my DMs on LinkedIn and X are always open.
+
+All of the code and charts used in this post can be found on my GitHub. For the results related to this post, you can check out the Volatility-Surface-Risk-Premiums repository, and for the backend calculations, you can look at py_op.
+
+Now onto the good stuff: we’re going to look at risk premiums related to volatility surfaces.
 
 ## Premiums
-In investing and trading a risk premium is some type of compensation investors recieve for taking on some type of risk, It is commonly known and persists historically. One of my favorite definitions of a risk premium comes from Author and vol expert Euan Sinclair who describes it as picking up a $20 bill in the middle of the highway, while most people know it is there they may not want to take the risk to go an pick it up, though those who do can be compensated if they don't get run over. 
+In investing and trading, a risk premium is the compensation investors receive for taking on a specific type of risk. Many risk premiums are well known and have persisted historically. One of my favorite definitions comes from author and volatility expert Euan Sinclair, who describes a risk premium as picking up a $20 bill in the middle of a highway. Most people know the bill is there, but many are not willing to take the risk of walking into traffic to pick it up. Those who do take that risk can be compensated, as long as they don't get run over.
 
 In general there are four things that need to occur in order for something to be a risk premium. 
 
@@ -23,13 +27,15 @@ In general there are four things that need to occur in order for something to be
 
 The most famous risk premium is probably the equity risk premium which is the reward investors get for buying stocks rather than parking their money in a risk free asset or bank account.
 
-There are numerous risk premiums related to the volatility surface, if we can estimate a moment related to the risk neutral density and physical density there is a risk premium related to it. In this post I want to discuss the risk premium related to the first four moments and metrics used to quantify them. 
+There are numerous risk premiums related to the volatility surface. Broadly speaking, if we can estimate a moment of the risk-neutral distribution implied by option prices and compare it with the corresponding moment of the physical, or realized, distribution, then we can define a potential risk premium around that difference. Practicioners will often estimate a risk premium by constructing a trading strategy and repeatedly trade it over a period of time. In this post, I want to discuss the risk premiums related to the first four moments of the return distribution and some of the common metrics used to quantify them.
 
-These are the variance risk premium (vrp), skew risk premium, skewness risk premium and vol of vol risk premium (vvrp). Many different sources will interchange skew and skewness and some consider them seperate things so it is hard to pin down a canonical definition for them. In this post I consider skewness to be related to the shape of a distribution and skew related to the slope of the implied volatility curve or the spot-vol covariance.
+These are the variance risk premium (vrp), skew risk premium, skewness risk premium and vol of vol risk premium (vvrp). Many different sources will interchange skew and skewness and some consider them seperate things so it is hard to pin down a canonical definition for them. In this post I consider skewness to be related to the shape of a distribution and skew related to the slope of the implied volatility curve or the spot-vol covariance (although this may be wrong and subject to debate so please share with me your optinion on this).
 
 ## Variance Risk Premium
 
-In the world of options and volatility this is by far the most commonly known risk premium and is measured by the difference in implied volatility and realized volatility. We can measure realized volatility as the sum of the squared log returns and for the implied component I find it is best to use the fixed leg of the corresponding maturities variance swap which is approximated using a list of otm puts and calls.
+In the world of options and volatility, this is by far the most well known risk premium. It is typically measured as the difference between implied volatility and realized volatility. For the realized component, we can estimate volatility using the sum of squared log returns. For the implied component, I prefer using the fixed leg of a variance swap with the corresponding maturity, which can be approximated using a strip of OTM puts and calls.
+
+There are, however, some caveats to these estimation methods. For example, realized volatility can be estimated in many different ways, and those statistical approaches are widely discussed, so I will not go into them here. On the implied side, we could also use ATM implied volatility as a simpler proxy for the risk premium, although the variance swap estimate is generally a more complete measure because it incorporates information from across the volatility surface.
 
 In the below images we have the 21 day rolling realized volatility and three metrics for our implied part, a rolling iv, the rolling fixed leg of a variance swap and the instantaneous vol calculated from the GVV model (more on this in a future post). These are all calculated from a linear interpolation of the 30 dte closest maturity options.
 
@@ -43,7 +49,7 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 ## Skew/Skewness Risk Premium
 
-If the variance risk premium measures the premia related to dispersion then the skewness/skew risk premium measures the premia related to asymetry. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable. In this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium.
+If the variance risk premium measures the premium related to dispersion (statistically speaking) then the skewness/skew risk premium measures the premium related to asymmetry. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable. In this section I will present, in my opinion, a few decent metrics we can use to estimate the skew/skewness risk premium.
 
 Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). I quantify this in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
@@ -275,5 +281,7 @@ I want to add that there is a good paper by the Fed  about estimating the vol-of
 ![Vol of Vol](/assets/images/implied_realized_vol_of_vol-2026-025-25.png)
 
 ## Conclusion
+
+Mention dispersion/correlation and rough vol risk premium
 
 ## References
