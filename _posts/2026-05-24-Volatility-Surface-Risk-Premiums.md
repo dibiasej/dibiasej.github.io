@@ -10,10 +10,10 @@ Hi all, this is my first shot at writing, and hopefully something I’ll continu
 
 All of the code and charts used in this post can be found on my GitHub. For the results related to this post, you can check out the Volatility-Surface-Risk-Premiums repository, and for the backend calculations, you can look at py_op.
 
-Now onto the good stuff: we’re going to look at risk premiums related to volatility surfaces.
+Now onto the good stuff: we’re going to look at risk premiums related to volatility surfaces. I just want to note that all of the results in this post are derived from 30 day maturity options on the S&P 500.
 
 ## Premiums
-In investing and trading, a risk premium is the compensation investors receive for taking on a specific type of risk. Many risk premiums are well known and have persisted historically. One of my favorite definitions comes from author and volatility expert Euan Sinclair, who describes a risk premium as picking up a $20 bill in the middle of a highway. Most people know the bill is there, but many are not willing to take the risk of walking into traffic to pick it up. Those who do take that risk can be compensated, as long as they don't get run over.
+In investing and trading, a risk premium is the compensation investors receive for taking on a specific type of risk. Many risk premiums are well known and have persisted historically. One of my favorite definitions comes from author and volatility expert Euan Sinclair, who describes a risk premium as picking up a $20 bill in the middle of a highway. Most people know the bill is there, but don't want to take the risk of walking into traffic to pick it up. Those who do take the risk are compensated, as long as they don't get run over.
 
 In general there are four things that need to occur in order for something to be a risk premium. 
 
@@ -27,7 +27,7 @@ In general there are four things that need to occur in order for something to be
 
 The most famous risk premium is probably the equity risk premium which is the reward investors get for buying stocks rather than parking their money in a risk free asset or bank account.
 
-There are numerous risk premiums related to the volatility surface. Broadly speaking, if we can estimate a moment of the risk-neutral distribution implied by option prices and compare it with the corresponding moment of the physical, or realized, distribution, then we can define a potential risk premium around that difference. Practicioners will often estimate a risk premium by constructing a trading strategy and repeatedly trade it over a period of time. In this post, I want to discuss the risk premiums related to the first four moments of the return distribution and some of the common metrics used to quantify them.
+There are numerous risk premiums related to the volatility surface. Broadly speaking, if we can estimate a moment of the risk-neutral distribution implied by option prices and compare it with the corresponding moment of the physical, or realized, distribution, then we can define a potential risk premium around that difference. Practitioners will often estimate a risk premium by constructing a trading strategy and repeatedly trade it over a period of time. In this post, I want to discuss the risk premiums related to the first four moments of the return distribution and some of the common metrics used to quantify them.
 
 These are the variance risk premium (vrp), skew risk premium, skewness risk premium and vol of vol risk premium (vvrp). Many different sources will interchange skew and skewness and some consider them seperate things so it is hard to pin down a canonical definition for them. In this post I consider skewness to be related to the shape of a distribution and skew related to the slope of the implied volatility curve or the spot-vol covariance (although this may be wrong and subject to debate so please share with me your optinion on this).
 
@@ -56,7 +56,7 @@ Just like the vrp we define the premia as the difference between expected skewne
 We will use the following metrics as our estimates for implied skew, realized skew, implied skewness and realized skewness:
 
 ###### Implied Skew: 
-- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. I approximate this using calibrated implied parameters from SABR, GVV or some other stochastic volatility model.
+- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. This can be approximated using calibrated implied parameters from some stochastic volatility model, here I use SABR and GVV volatility models.
 - Normalized 90% - 110% moneyness IV skew slope
  
   $$
