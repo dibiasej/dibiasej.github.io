@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Volatility Surface Risk Premiums"
+title: "Volatility Surface Risk Premiums: Variance, Skewness, and Vol-of-Vol in S&P 500 Options"
 date: 2026-05-24
 ---
 
