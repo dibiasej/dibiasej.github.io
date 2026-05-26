@@ -53,10 +53,10 @@ If the variance risk premium measures the premium related to dispersion (statist
 
 Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). I quantify this in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
-We will use the following metrics as our estimates:
+We will use the following metrics as our estimates for implied skew, realized skew, implied skewness and realized skewness:
 
 ###### Implied Skew: 
-- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. I approximate this using calibrated implied parameters from SABR, GVV or some other stochastic volatility model. You can approximate this by multiplying parameters representing spot-vol cov, instantaneous vol and vol of vol.
+- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. I approximate this using calibrated implied parameters from SABR, GVV or some other stochastic volatility model.
 - Normalized 90% - 110% moneyness IV skew slope
  
   $$
@@ -232,7 +232,7 @@ I think it is worth pausing briefly to clarify the fixed leg of a skew swap. Abo
   $$
 
 
-  I know this is a whole lot of math but each formula really is just a different weighting of OTM puts and calls. You can look on my github under py_op to see how I coded these. Below we show how these look plotted over time for estimates using daily S&P 500 options data, where we rebalance the option holdings daily.
+These formulas are a lot simpler than they look. Each one is really just a different weighting of OTM puts and calls. You can find the code implementation on my GitHub under py_op. Below, I show how these estimates look when plotted over time using daily S&P 500 options data, where the option holdings are rebalanced daily.
 
 ![Skew Swap Fixed Legs](/assets/images/skew_swap_strikes-2026-05-25.png)
 
@@ -256,11 +256,11 @@ Next, I show our three different verions of estimating the skew/skewness risk pr
 
 For the realized third moment estimate I use close to close prices which may be causing a high variance in the estimate, so while generally it is correct, you can increase the estimation accuracy if you use intraday prices.
 
-Out of all the volatility-surface-related premia discussed in this post, the skew/skewness risk premium has the least consensus around how it should be estimated. Hopefully, this section has outlined a few useful metrics that you can apply in your own research. Now we move on to the last premium I want to discuss, the volatility of volatility risk premium.
+Of all the volatility surface related premia discussed in this post, the skew, or skewness, risk premium has the least consensus around how it should be estimated. Hopefully, this section outlined a few useful metrics that you can apply in your own research. Now, we move on to the final premium I want to discuss: the volatility-of-volatility risk premium.
 
 ## Volatility of Volatility Risk Premium (VVRP)
 
-Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. However, the realized and implied components of VVRP are usually easier to define. Implied vol-of-vol can be estimated from the calibration parameters of a stochastic volatility model, or from option-implied measures such as VVIX. Realized vol-of-vol can then be estimated using rolling historical measures, such as the volatility of realized volatility, changes in implied volatility, or variance-swap levels. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
+Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. However, the realized and implied components of VVRP are usually easier to define. Implied vol-of-vol can be estimated from the calibrated parameters of a stochastic volatility model, or from option-implied measures such as VVIX. Realized vol-of-vol can then be estimated using rolling historical measures, such as the volatility of realized volatility, changes in implied volatility, or variance-swap levels. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
 
 Here I provide three metrics for the implied vol-of-vol and three for the realized.
 
@@ -282,6 +282,22 @@ I want to add that there is a good paper by the Fed  about estimating the vol-of
 
 ## Conclusion
 
-Mention dispersion/correlation and rough vol risk premium
+Overall, the volatility surface contains a lot more information than just the market’s expectation of future volatility. By comparing option-implied estimates with realized or physical estimates, we can begin to isolate different types of risk premiums embedded in the surface. The variance risk premium captures the compensation investors demand for bearing volatility risk, the skew or skewness risk premium gives insight into how the market prices asymmetry and downside risk, and the volatility-of-volatility risk premium reflects the market’s pricing of uncertainty around volatility itself.
+
+None of these estimates are perfect. Each depends heavily on the methodology used, the maturity chosen, the option data available, and the realized metric used for comparison. Still, I think these measures are useful because they give us a structured way to think about what the options market is pricing beyond simple directional views.
+
+In future posts I will discuss risk premiums related dispersion/correlation and the rough volatility risk premium which relates to market implied roughness of the volatiulity path versus what is actually realized. Hopefully this post provided a useful information for thinking about volatility-surface-related risk premiums and some of the ways they can be estimated. As always, all of the code and charts used in this post are available on my GitHub, and I am always open to feedback, corrections, or ideas for improving the analysis.
 
 ## References
+
+- Hull, B., & Sinclair, E. (2021). *The Risk-Reversal Premium*. SSRN working paper.
+
+- Ito, A. (n.d.). *Variance Risk Premium, Skewness Risk Premium and Equity Expected Returns*. SSRN preprint.
+
+- Kozhan, R., Neuberger, A., & Schneider, P. (2012). *The Skew Risk Premium in the Equity Index Market*. SSRN working paper.
+
+- Lee, P. B. (2024). *Optimal Skew Swap Replication*. AlphaVols / SAAM.
+
+- Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*. Finance and Economics Discussion Series, Federal Reserve Board, 2013-54.
+
+- Yuan, J., Liu, D., Chen, C. R., & Ma, M. (2025). *Estimating Volatility-of-Volatility: A Comparative Analysis*. Economics Letters, 250, 112298.
