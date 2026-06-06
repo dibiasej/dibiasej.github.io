@@ -56,7 +56,8 @@ Just like the vrp we define the premia as the difference between expected skewne
 We will use the following metrics as our estimates for implied skew, realized skew, implied skewness and realized skewness:
 
 ###### Implied Skew: 
-- Implied spot-vol covaraince: found from an ATM slope of a implied skew curve. This can be approximated using calibrated implied parameters from some stochastic volatility model, here I use SABR and GVV volatility models.
+Implied skew is a way to measure the shape of the surface/volatility curve and it is linked to risk-neutral skewness. Below we list some ways to measure the implied skew.
+- Implied spot-vol covaraince: This is found from the instantaneous ATM skew of a implied volatility curve. This can be approximated using calibrated implied parameters from volatility model, here I use SABR and GVV volatility models.
 - Normalized 90% - 110% moneyness IV skew slope
  
   $$
