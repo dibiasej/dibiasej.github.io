@@ -81,7 +81,11 @@ $$
 
 
 
-To quantify skewness risk premium I use implied skewness minus realized skewness but I need to add a little detail about the calculation of those two metrics. Implied skewness is a model-free metric derived from otm puts and calls, I follow the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and Ito (2025) to derive this. Under these frameworkds implied skewness is essentially the fixed leg of a skew swap divided by a variance/log contract. Neuberger directly defines the fixed leg of a skew swap as a entropy contract minus a log contract, but it can also be defined as a weighting of otm puts and calls.   
+To quantify skewness risk premium I use implied skewness minus realized skewness but I need to add a little detail about the calculation of those two metrics.
+
+Implied skewness is a model-free metric derived from otm puts and calls, I follow the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and Ito (2025) to derive this. Under these frameworks implied skewness is essentially the fixed leg of a skew swap divided by a variance/log contract. Neuberger directly defines the fixed leg of a skew swap as a entropy contract minus a log contract.  
+
+- Kozhan, Neuberger, and Schneider (2012)
 
 $$
 \operatorname{skew}_{t,T}
@@ -122,7 +126,37 @@ v^{E}_{t,T}
 \Delta I(K_i)
 $$
 
-I quantify the risk premium in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
+The fixed leg of a skew swap can also be defined as a specific weighting of otm puts and calls. The below formula is exactly the same as a entropy contract minus a log. 
+
+$$
+K_s =
+\frac{2}{T S_0}
+\left(
+\int_{0}^{S_0}
+\operatorname{put}(S_0, K)
+\frac{1}{K^2}
+(S_0 - K)\, dK
++
+\int_{S_0}^{\infty}
+\operatorname{call}(S_0, K)
+\frac{1}{K^2}
+(S_0 - K)\, dK
+\right)
+$$
+
+Realized skewness is estimated from the historical distribution of log returns. Following Ito (2025), it is measured using cubed intraday log returns scaled by realized variance, so it can be interpreted as the standardized third moment of the return distribution
+
+$$
+\frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
+{\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
+$$
+
+Based on the above metrics we have three different measurements for our risk premium.
+
+1. Implied spot-vol covariance - realized spot-vol covariance
+2. Model-free implied skewness - 
+
+Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
 We will use the following metrics as our estimates for implied skew, realized skew, implied skewness and realized skewness:
 
