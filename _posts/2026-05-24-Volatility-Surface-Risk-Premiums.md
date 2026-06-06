@@ -66,10 +66,11 @@ $$
 There is a difference between skew and skewness in both the implied and realized sense. This difference is partly terminology and partly mathematical, in practice, people often use them interchangably and loosely. Generally skew has to do with the shape of the surface/volatility curve and it is linked to risk-neutral skewness but not an exact measurement of it. Where skewness on the other hand directly relates to the third standardized moment of the risk-neutral or physical distribution. This is most obviously seen in our measurements for realized skew and skewness, where realized skew is historical returns scaled by a fixed leg of a variance swap as to incorprate the skew in some way, and realized skewness is historical returns scaled by realized volatility. Skew incorporates the curve, skewness the historical returns.
 
 I quantify the skew risk premium using the difference between implied and realized spot-vol covariance as defined below. Implied spot-vol covaraince is found from the instantaneous ATM skew of a implied volatility curve. This can be approximated using calibrated implied parameters from volatility a model, in this post I use SABR and GVV volatility models.
+
 $$
-d\langle S,\sigma\rangle_t
+d\langle \log S,\sigma\rangle_t
 =
-\rho_{S,\sigma}\,\sigma_t\,\nu_t\,S_t\,dt
+\rho_{S,\sigma}\,\sigma_t\,\nu_t\,dt
 $$
 
 And realized spot-vol covariance (also called realized skew) is the historical covariance between instantaneous vol and log returns
