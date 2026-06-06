@@ -27,9 +27,7 @@ In general there are four things that need to occur in order for something to be
 
 The most famous risk premium is probably the equity risk premium which is the reward investors get for buying stocks rather than parking their money in a risk free asset or bank account.
 
-There are numerous risk premiums related to the volatility surface. Broadly speaking, if we can estimate a moment of the risk-neutral distribution implied by option prices and compare it with the corresponding moment of the physical, or realized, distribution, then we can define a potential risk premium around that difference. Practitioners will often estimate a risk premium by constructing a trading strategy and repeatedly trade it over a period of time. In this post, I want to discuss the risk premiums related to the first four moments of the return distribution
-
-These are the variance risk premium (vrp), skew risk premium, skewness risk premium and vol of vol risk premium (vvrp). 
+There are numerous risk premiums related to the volatility surface. Broadly speaking, if we can estimate a moment of the risk-neutral distribution implied by option prices and compare it with the corresponding moment of the physical, or realized, distribution, then we can define a potential risk premium around that difference. Practitioners will often estimate a risk premium by constructing a trading strategy and repeatedly trade it over a period of time. In this post, I discuss several option-implied risk premia related to the shape and dynamics of the return distribution, including the variance risk premium, skew/skewness risk premium, and vol-of-vol risk premium
 
 ## Variance Risk Premium
 
@@ -49,7 +47,7 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 ## Skew/Skewness Risk Premium
 
-If the variance risk premium measures the premium related to dispersion (statistically speaking) then the skewness/skew risk premium measures the premium related to asymmetry. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable, but I will give a few metrics that can be used to approximate this risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). 
+If the variance risk premium measures the premium related to dispersion (statistically speaking) then the skewness/skew risk premium measures the premium related to asymmetry. Economic rationale. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable, but I will give a few metrics that can be used to approximate this risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). 
 
 $$
 \text{SRP}_{t,T}
@@ -65,9 +63,65 @@ $$
 \right]
 $$
 
-There is a difference between skew and skewness in both the implied and realized sense. This difference is partly terminology and partly mathematical, in practice, people often use them interchangably and loosely. Generally skew has to do with the shape of the surface/volatility curve and it is linked to risk-neutral skewness but not an exact measurement of it. Where skewness on the other hand directly relates to the third standardized moment of the risk-neutral or physical distribution. We see this most applicably in our measurements for realized skew and skewness, where realized skew is historical returns scaled by a fixed leg of a variance swap as to incorprate the skew in some way, and realized skewness is historical returns scaled by realized volatility. Skew incorporates the curve, skewness the historical returns.
+There is a difference between skew and skewness in both the implied and realized sense. This difference is partly terminology and partly mathematical, in practice, people often use them interchangably and loosely. Generally skew has to do with the shape of the surface/volatility curve and it is linked to risk-neutral skewness but not an exact measurement of it. Where skewness on the other hand directly relates to the third standardized moment of the risk-neutral or physical distribution. This is most obviously seen in our measurements for realized skew and skewness, where realized skew is historical returns scaled by a fixed leg of a variance swap as to incorprate the skew in some way, and realized skewness is historical returns scaled by realized volatility. Skew incorporates the curve, skewness the historical returns.
 
-I quantify this in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
+I quantify the skew risk premium using the difference between implied and realized spot-vol covariance as defined below. Implied spot-vol covaraince is found from the instantaneous ATM skew of a implied volatility curve. This can be approximated using calibrated implied parameters from volatility a model, in this post I use SABR and GVV volatility models.
+$$
+d\langle S,\sigma\rangle_t
+=
+\rho_{S,\sigma}\,\sigma_t\,\nu_t\,S_t\,dt
+$$
+
+And realized spot-vol covariance (also called realized skew) is the historical covariance between instantaneous vol and log returns
+
+$$
+\sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
+$$
+
+
+
+To quantify skewness risk premium I use implied skewness minus realized skewness but I need to add a little detail about the calculation of those two metrics. Implied skewness is a model-free metric derived from otm puts and calls, I follow the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and Ito (2025) to derive this. Under these frameworkds implied skewness is essentially the fixed leg of a skew swap divided by a variance/log contract. Neuberger directly defines the fixed leg of a skew swap as a entropy contract minus a log contract, but it can also be defined as a weighting of otm puts and calls.   
+
+$$
+\operatorname{skew}_{t,T}
+=
+3
+\frac{
+v^{E}_{t,T} - v^{L}_{t,T}
+}{
+\left(v^{L}_{t,T}\right)^{3/2}
+}
+$$
+
+$$
+v^{L}_{t,T}
+=
+2
+\sum_{K_i \leq F_{t,T}}
+\frac{P_{t,T}(K_i)}{B_{t,T}K_i^2}
+\Delta I(K_i)
++
+2
+\sum_{K_i > F_{t,T}}
+\frac{C_{t,T}(K_i)}{B_{t,T}K_i^2}
+\Delta I(K_i)
+$$
+
+$$
+v^{E}_{t,T}
+=
+2
+\sum_{K_i \leq F_{t,T}}
+\frac{P_{t,T}(K_i)}{B_{t,T}K_iF_{t,T}}
+\Delta I(K_i)
++
+2
+\sum_{K_i > F_{t,T}}
+\frac{C_{t,T}(K_i)}{B_{t,T}K_iF_{t,T}}
+\Delta I(K_i)
+$$
+
+I quantify the risk premium in three ways, following the skew-swap framework of Kozhan, Neuberger, and Schneider (2012), the model-free VRP/SRP approach in Ito (2025), and taking the difference between implied - realized spot-vol covariance. Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
 We will use the following metrics as our estimates for implied skew, realized skew, implied skewness and realized skewness:
 
