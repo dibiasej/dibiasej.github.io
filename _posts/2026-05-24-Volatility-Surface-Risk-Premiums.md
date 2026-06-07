@@ -200,6 +200,7 @@ Based on the above metrics we have three different measurements for our risk pre
 
 Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
+Before we move on to vol-of-vol risk premium there are some other metrics related to skew I would like to briefly discuss. These metrics are the implied and realized spot-vol correlation and a Normalized 90% - 110% moneyness IV skew slope. These are also metrics that are commonly used by volatility traders to estimate some form of co movement in spot and vol and are important to know. Below we show rolling metrics for realized and implied spot-vol correlation, where the realized correlation is estimated using historical log returns and ATM IV and the implied correlation is estimated using a calibrated parameter from a stochastic volatility model, or directly taken from the skew curve.
 
 - Normalized 90% - 110% moneyness IV skew slope
  
@@ -208,23 +209,9 @@ Under these frameworks the risk premium can be interpreted as the expected payof
   {\left(\text{90 put strike} - \text{110 call strike}\right) / F}
   $$
 
-### Realized/Implied Estimates
-
-Below we show rolling metrics for realized and implied spot-vol correlation, where the realized correlation is estimated using historical log returns and ATM IV and the implied correlation is estimated using a calibrated parameter from a stochastic volatility model, or directly taken from the skew curve.
-
 ![Spot Vol Correlations](/assets/images/spot_vol_correlations-2026-05-25.png)
 
 Notice how closely the different implied spot-vol correlation measures track each other. The GVV estimate, SABR estimate, and the 90%-110% moneyness skew approximation all show similar dynamics, suggesting that each method is capturing a similar implied spot-vol relationship
-
-Next, I show our three different verions of estimating the skew/skewness risk premium as defined above. The first verison uses differences in realized and implied spot-vol covariance, the second follows Ito (2025) and uses the difference between the model free implied skew and third moment of historical log returns, and the last follows Kozhan, Neuberger, and Schneider (2012)
-
-![Spot Vol Covariances](/assets/images/spot_vol_covariance_skew_risk_premium-2026-05-25.png)
-
-![Akio Ito Skew Risk Premium](/assets/images/akio_implied_realized_skewness_risk_premium-2026-05-25.png)
-
-![Neuberger Skew Risk Premium](/assets/images/neuberger_implied_realized_skew_risk_premium-2026-05-25.png)
-
-For the realized third moment estimate I use close to close prices which may be causing a high variance in the estimate, so while generally it is correct, you can increase the estimation accuracy if you use intraday prices.
 
 Of all the volatility surface related premia discussed in this post, the skew, or skewness, risk premium has the least consensus around how it should be estimated. Hopefully, this section outlined a few useful metrics that you can apply in your own research. Now, we move on to the final premium I want to discuss: the volatility-of-volatility risk premium.
 
