@@ -218,7 +218,9 @@ Of all the volatility surface related premia discussed in this post, the skew, o
 
 ## Volatility of Volatility Risk Premium (VVRP)
 
-Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. However, the realized and implied components of VVRP are usually easier to define. Implied vol-of-vol can be estimated from the calibrated parameters of a stochastic volatility model, or from option-implied measures such as VVIX. Realized vol-of-vol can then be estimated using rolling historical measures, such as the volatility of realized volatility, changes in implied volatility, or variance-swap levels. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
+Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. Vol-of-vol is generally related to the statistical moment kurtosis, and implied/realized vol-of-vol and kurtosis are used loosely and interchageably. Vol-of-vol is not itself the same as kurtosis, but in stochastic volatility models, higher vol-of-vol tends to generate fatter tails and higher risk-neutral kurtosis. In the literature, implied kurtosis is more akin to implied skew where it can be estimated using implied volatilities for certain otm options, where as implied vol-of-vol is generally some parameter from a model but we will discuss multiple methods for calculating all these below.
+
+Implied vol-of-vol can be estimated from the calibrated parameters of a stochastic volatility model, or from option-implied measures such as VVIX. Realized vol-of-vol can then be estimated using rolling historical measures, such as the volatility of realized volatility, changes in implied volatility, or variance-swap levels. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
 
 Here I provide three metrics for the implied vol-of-vol and three for the realized.
 
@@ -227,10 +229,29 @@ Here I provide three metrics for the implied vol-of-vol and three for the realiz
 - SABR estimated implied vol-of-vol parameter
 - VVIX Index 
 
-###### Realized Vol-of-Vol
-- Rolling 21 day volatility of Implied volatility
-- Rolling 21 day volatility of a Variance Swap
-- Rolling 21 day volatility of the close-to-close volatility estimate
+###### Realized Vol-of-Vol:
+- Rolling historical volatility of Implied volatility
+- Rolling historical volatility of a Variance Swap
+- Rolling historical volatility of the close-to-close volatility estimate
+- Rolling historical volatility of VIX Future
+
+###### Implied Kurtosis:
+- 5 delta put IV - 5 delta call IV
+- (5 delta put IV - 5 delta call IV) / atm IV
+- 0.5(call IV + put IV) - atm IV (Butterfly)
+- Model Free Implied Kurtosis following Bakshi, Kapadia and Madan (2003)
+
+###### Realized Kurtosis:
+- Rolling sample kurtosis from distribution of log returns
+
+$$
+\text{Kurt}_t =
+\frac{
+\frac{1}{L}\sum_{j=0}^{L-1}(r_{t+j}-\bar r_t)^4
+}{
+\left(\frac{1}{L}\sum_{j=0}^{L-1}(r_{t+j}-\bar r_t)^2\right)^2
+}
+$$
 
 These rolling realized metrics are calculated in a similar way to close-to-close realized volatility. Just like with skew, there are many possible approaches, so I only wanted to outline a few in this post. One thing to keep in mind is that the SABR model includes a local-volatility/CEV component, which can affect how the implied parameters should be scaled. This may help explain why the SABR vol-of-vol estimate appears much higher than both the VVIX and GVV vol-of-vol estimates shown below.
 
