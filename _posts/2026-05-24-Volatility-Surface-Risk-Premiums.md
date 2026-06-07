@@ -79,11 +79,15 @@ $$
 \sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
 $$
 
+Below we show a plot of these metrics and their associated skew risk premium.
 
+![Spot Vol Covariances](/assets/images/spot_vol_covariance_skew_risk_premium-2026-05-25.png)
 
 To quantify skewness risk premium I use implied skewness minus realized skewness but I need to add a little detail about the calculation of those two metrics.
 
-Implied skewness is a model-free metric derived from otm puts and calls, I follow the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and Ito (2025) to derive this. Under these frameworks implied skewness is essentially the fixed leg of a skew swap divided by a variance/log contract. Neuberger directly defines the fixed leg of a skew swap as a entropy contract minus a log contract.  
+Implied skewness is a model-free metric derived from otm puts and calls, I follow the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and Ito (2025) to derive this. Under these frameworks implied skewness is essentially the fixed leg of a skew swap divided by a variance/log contract. 
+
+Neuberger directly defines the fixed leg of a skew swap as a entropy contract minus a log contract.  
 
 - Kozhan, Neuberger, and Schneider (2012)
 
@@ -126,7 +130,7 @@ v^{E}_{t,T}
 \Delta I(K_i)
 $$
 
-The fixed leg of a skew swap can also be defined as a specific weighting of otm puts and calls. The below formula is exactly the same as a entropy contract minus a log. 
+And Ito (2025) uses a similar formulation. The fixed leg of a skew swap can also be defined as a specific weighting of otm puts and calls. The below formula is exactly the same as a entropy contract minus a log. This formula was derived following Lee (2024)
 
 $$
 K_s =
@@ -144,206 +148,65 @@ K_s =
 \right)
 $$
 
-Realized skewness is estimated from the historical distribution of log returns. Following Ito (2025), it is measured using cubed intraday log returns scaled by realized variance, so it can be interpreted as the standardized third moment of the return distribution
+I plot these below using daily S&P 500 options data and as you can see both Ito and Neubergers frameworks are in line over time. You can find the code implementation on my GitHub under py_op
+
+![Skew Swap Fixed Legs](/assets/images/skew_swap_strikes-2026-05-25.png)
+
+Realized skewness is estimated from the historical distribution of log returns. Following Ito (2025), it is measured using cubed intraday log returns scaled by realized variance, so it can be interpreted as the standardized third moment of the return distribution.
 
 $$
 \frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
 {\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
 $$
 
+Ito (2025) then quantifies skewness risk premium by subtracting the implied and realized legs.
+
+![Akio Ito Skew Risk Premium](/assets/images/akio_implied_realized_skewness_risk_premium-2026-05-25.png)
+
+Kozhan, Neuberger, and Schneider (2012) use a slightly different approach. It is important to note their paper claims to be estimating skew risk premium not skewness even though they use the same fixed leg of a skew swap as Ito, this is exactly where the nomenclature around skew and skewness gets messy. What is important to remember is essentially any framework around a higher moment risk premium is always estimating an implied minus realized value, and importantly both derivations claim these correspond to a fixed leg and floating leg of a skew swap. The floating leg of their skew swap estimate of skewness risk premium, as we already defined above is some statistical estimate of a thrid moment scaled by a variance swap fixed leg and they define it as realized skew as well. 
+
+$$
+\operatorname{rskew}_{t,T} 
+=
+\frac{rs_{t,T}}{\left(v^{L}_{t,T}\right)^{3/2}}
+$$
+
+$$
+rs_{t,T}
+=
+\sum_{i=t}^{T}
+\left[
+\delta v^{E}_{i,T}
+\left(e^{r_{i,i+1}} - 1\right)
++
+6
+\left(
+2 - 2e^{r_{i,i+1}}
++ r_{i,i+1}
++ r_{i,i+1}e^{r_{i,i+1}}
+\right)
+\right]
+$$
+
+This is actually very similar to the realized skewness third moment definition defined above except we are deviding by a different form of variance derived from a skew curve. They then go on to define skew risk premium as rskew/skew - 1, and we plot these below.
+
+![Neuberger Skew Risk Premium](/assets/images/neuberger_implied_realized_skew_risk_premium-2026-05-25.png)
+
 Based on the above metrics we have three different measurements for our risk premium.
 
 1. Implied spot-vol covariance - realized spot-vol covariance
-2. Model-free implied skewness - 
+2. Model-free implied skewness (ie scaled fixed leg skew swap) - realized skewness from historical log returns
+3. Model-free implied skewness (ie scaled fixed leg skew swap) - realized skew (ie floating leg skew swap)
 
 Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
-We will use the following metrics as our estimates for implied skew, realized skew, implied skewness and realized skewness:
 
-###### Implied Skew: 
-- Implied spot-vol covaraince: This is found from the instantaneous ATM skew of a implied volatility curve. This can be approximated using calibrated implied parameters from volatility model, here I use SABR and GVV volatility models.
 - Normalized 90% - 110% moneyness IV skew slope
  
   $$
   \frac{\text{90 put IV} - \text{110 call IV}}
   {\left(\text{90 put strike} - \text{110 call strike}\right) / F}
   $$
-
-###### Realized Skew: 
-- The historical covariance between instantaneous vol and log returns: 
-
-  $$
-  \sum_{i=1}^{N} \ln\left(\frac{S_i}{S_{i-1}}\right)\Delta \hat{\sigma}_i
-  $$
-
-- Floating leg of a dynamically rebalanced skew swap, scaled by the initial variance-swap fixed leg
-
-  $$
-  \operatorname{rskew}_{t,T} 
-  =
-  \frac{rs_{t,T}}{\left(v^{L}_{t,T}\right)^{3/2}}
-  $$
-
-  $$
-  rs_{t,T}
-  =
-  \sum_{i=t}^{T}
-  \left[
-  \delta v^{E}_{i,T}
-  \left(e^{r_{i,i+1}} - 1\right)
-  +
-  6
-  \left(
-  2 - 2e^{r_{i,i+1}}
-  + r_{i,i+1}
-  + r_{i,i+1}e^{r_{i,i+1}}
-  \right)
-  \right]
-  $$
-
-  - Following Kozhan, Neuberger, and Schneider (2012)
-
-###### Implied Skewness:
-Implied skewness is the actual risk-neutral moment and is mor 
-
-- Fixed leg of a skew swap: There are many different ways to estimate this and many papers have been written that go into this topic on length but here I will present a few below.
-
-###### Realized Skewness:
-- Third moment of the historical return distribution: 
-
-  $$
-  \frac{\sqrt{N}\sum_{i=1}^{N} r_i^3}
-  {\left(\sum_{i=1}^{N} r_i^2\right)^{3/2}}
-  $$
-
-  - Following Ito (2025)
-
-
-And we provide three different quantities used to estimate the srp:
-
-1. Implied spot-vol covariance - realized spot-vol covariance
-
-2. Skew swap fixed leg - floating leg
-
-3. Skew swap fixed leg - realized third moment of the historical return distribution
-
-### Fixed Leg of a Skew Swap
-
-I think it is worth pausing briefly to clarify the fixed leg of a skew swap. Above, I wrote that implied skewness is found using the fixed leg of a skew swap, but that is not completely accurate. Some sources use terms like implied skew, implied skewness, and skew swap fixed leg somewhat interchangeably, but the exact interpretation depends on the calculation methodology. Generally the fixed leg of a skew swap is approximated using a strip of OTM puts and calls similar to the fixed leg of a variance swap except with a different weighting scheme. Below I present three different formulas for this approximation
-
-- Model-free implied skewness following Ito (2025), who defines skewness using model-free risk-neutral moments estimated from option prices: 
-
-  $$
-  P_1 = \mu = E[R]
-  = e^{rT}
-  \left(
-  -\sum_i \frac{1}{K_i^2} Q_{K_i}\Delta K_i
-  \right)
-  + \varepsilon_1
-  $$
-
-  $$
-  P_2 = E[R^2]
-  = e^{rT}
-  \left(
-  \sum_i \frac{2}{K_i^2}
-  \left(
-  1 - \ln\frac{K_i}{F_0}
-  \right)
-  Q_{K_i}\Delta K_i
-  \right)
-  + \varepsilon_2
-  $$
-
-  $$
-  P_3 = E[R^3]
-  = e^{rT}
-  \left(
-  \sum_i \frac{3}{K_i^2}
-  \left\{
-  2\ln\frac{K_i}{F_0}
-  -
-  \ln^2\left(\frac{K_i}{F_0}\right)
-  \right\}
-  Q_{K_i}\Delta K_i
-  \right)
-  + \varepsilon_3
-  $$
-
-  $$
-  S =
-  \frac{
-  P_3 - 3P_1P_2 + 2P_1^3
-  }{
-  \left(P_2 - P_1^2\right)^{3/2}
-  }
-  $$
-
-- Fair skew swap strike following Lee (2024), where the skew swap strike is replicated using a weighted strip of OTM puts and calls:
-
-  $$
-  K_s =
-  \frac{2}{T S_0}
-  \left(
-  \int_{0}^{S_0}
-  \operatorname{put}(S_0, K)
-  \frac{1}{K^2}
-  (S_0 - K)\, dK
-  +
-  \int_{S_0}^{\infty}
-  \operatorname{call}(S_0, K)
-  \frac{1}{K^2}
-  (S_0 - K)\, dK
-  \right)
-  $$
-
-- And Kozhan, Neuberger, and Schneider (2012), where $$v^{E}_{t,T}$$ is the fixed leg of an entropy contract, and $$v^{L}_{t,T}$$ is our favorite the variance swap.
-
-  $$
-  \operatorname{skew}_{t,T}
-  =
-  3
-  \frac{
-  v^{E}_{t,T} - v^{L}_{t,T}
-  }{
-  \left(v^{L}_{t,T}\right)^{3/2}
-  }
-  $$
-
-  $$
-  v^{L}_{t,T}
-  =
-  2
-  \sum_{K_i \leq F_{t,T}}
-  \frac{P_{t,T}(K_i)}{B_{t,T}K_i^2}
-  \Delta I(K_i)
-  +
-  2
-  \sum_{K_i > F_{t,T}}
-  \frac{C_{t,T}(K_i)}{B_{t,T}K_i^2}
-  \Delta I(K_i)
-  $$
-
-  $$
-  v^{E}_{t,T}
-  =
-  2
-  \sum_{K_i \leq F_{t,T}}
-  \frac{P_{t,T}(K_i)}{B_{t,T}K_iF_{t,T}}
-  \Delta I(K_i)
-  +
-  2
-  \sum_{K_i > F_{t,T}}
-  \frac{C_{t,T}(K_i)}{B_{t,T}K_iF_{t,T}}
-  \Delta I(K_i)
-  $$
-
-
-These formulas are a lot simpler than they look. Each one is really just a different weighting of OTM puts and calls. You can find the code implementation on my GitHub under py_op. Below, I show how these estimates look when plotted over time using daily S&P 500 options data, where the option holdings are rebalanced daily.
-
-![Skew Swap Fixed Legs](/assets/images/skew_swap_strikes-2026-05-25.png)
-
-As you can see the model-free implied skew derived from Ito (2025) and Kozhan, Neuberger, and Schneider (2012) are extremely close so this is a good sign. Now we move onto our realized and implied skew/skewness estimates.
 
 ### Realized/Implied Estimates
 
