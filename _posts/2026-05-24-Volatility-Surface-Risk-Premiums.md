@@ -218,16 +218,16 @@ Of all the volatility surface related premia discussed in this post, the skew, o
 
 ## Volatility of Volatility Risk Premium (VVRP)
 
-Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. Vol-of-vol is generally related to the statistical moment kurtosis, and implied/realized vol-of-vol and kurtosis are used loosely and interchageably. Vol-of-vol is not itself the same as kurtosis, but in stochastic volatility models, higher vol-of-vol tends to generate fatter tails and higher risk-neutral kurtosis. In the literature, implied kurtosis is more akin to implied skew where it can be estimated using implied volatilities for certain otm options, where as implied vol-of-vol is generally some parameter from a model but we will discuss multiple methods for calculating all these below.
-
-Implied vol-of-vol can be estimated from the calibrated parameters of a stochastic volatility model, or from option-implied measures such as VVIX. Realized vol-of-vol can then be estimated using rolling historical measures, such as the volatility of realized volatility, changes in implied volatility, or variance-swap levels. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
-
-Here I provide three metrics for the implied vol-of-vol and three for the realized.
+Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. Vol-of-vol is generally related to the statistical moment kurtosis, and implied/realized vol-of-vol and kurtosis are used loosely and interchageably. Vol-of-vol is not itself the same as kurtosis, but in stochastic volatility models, higher vol-of-vol tends to generate fatter tails and higher risk-neutral kurtosis. In the literature, implied kurtosis is more akin to implied skew where it can be estimated using implied volatilities for certain otm options, where as implied vol-of-vol is generally some parameter from a model. We will discuss multiple methods for calculating all these below. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
 
 ###### Implied Vol-of-Vol:
 - GVV estimated implied vol-of-vol parameter
 - SABR estimated implied vol-of-vol parameter
 - VVIX Index 
+
+Vol-of-vol from GVV and SABR are implied parameters and are derived by using a calibration or numerical procedure to fit a stochastic volatitility model and back out there values. Alternatively VVIX is a model free apoproach to estimate implied vol-of-vol using the same variance swap fixed leg calculation on otm puts and calls on the VIX index. 
+
+![Implied Vol of Vols](/assets/images/implied_vol_of_vol-2026-06-07.png)
 
 ###### Realized Vol-of-Vol:
 - Rolling historical volatility of Implied volatility
