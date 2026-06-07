@@ -245,6 +245,10 @@ Similar to a rolling realized volatility calculation, realized vol-of-vol can be
 - 0.5(call IV + put IV) - atm IV (Butterfly)
 - Model Free Implied Kurtosis following Bakshi, Kapadia and Madan (2003)
 
+These are all generated using specific options at a fixed maturity, this is similar to how you might estimate implied skew from a volatility curve and is related to the curvature of the curve. While it is not directly an implied vol-of-vol estimate it is related. The butterfly IV can be estimated using either 5 delta options or 25 delta. In Natenbergs Volatilty Trading he swaps the call and put around but either metric is useful as long as you remember how you are calculating it. The model free implied kurtosis is a similar approach to estimating a risk-neutral moment from options prices as the model free implied skewness approach from Ito, we leave out the formula here but it can be found in their paper. 
+
+![Implied Kurtosis](/assets/images/implied_kurtosis_metrics-2026-06-07.png)
+
 ###### Realized Kurtosis:
 - Rolling sample kurtosis from distribution of log returns
 
@@ -257,11 +261,13 @@ $$
 }
 $$
 
-These rolling realized metrics are calculated in a similar way to close-to-close realized volatility. Just like with skew, there are many possible approaches, so I only wanted to outline a few in this post. One thing to keep in mind is that the SABR model includes a local-volatility/CEV component, which can affect how the implied parameters should be scaled. This may help explain why the SABR vol-of-vol estimate appears much higher than both the VVIX and GVV vol-of-vol estimates shown below.
+![Realized Kurtosis](/assets/images/realized_kurtosis-2026-06-07.png)
 
-I want to add that there is a good paper by the Fed  about estimating the vol-of-vol risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future, Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*.
+One thing to keep in mind is that the SABR model includes a local-volatility/CEV component, which can affect how the implied parameters should be scaled. This may help explain why the SABR vol-of-vol estimate appears much higher than both the VVIX and GVV vol-of-vol estimates shown below.
 
-![Vol of Vol](/assets/images/implied_realized_vol_of_vol-2026-025-25.png)
+I want to add that there is a good paper by the Fed  about estimating the vol-of-vol risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future, Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*. We below I show this where the realized component is calculated as a rolling statistical estimate of volatility of a one month VIX Future.
+
+![VVRP](/assets/images/vol_of_vol_and_vvrp-2026-06-07.png)
 
 ## Conclusion
 
@@ -284,3 +290,5 @@ In future posts I will discuss risk premiums related dispersion/correlation and 
 - Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*. Finance and Economics Discussion Series, Federal Reserve Board, 2013-54.
 
 - Yuan, J., Liu, D., Chen, C. R., & Ma, M. (2025). *Estimating Volatility-of-Volatility: A Comparative Analysis*. Economics Letters, 250, 112298.
+
+- Bakshi, G., Kapadia, N., & Madan, D. (2003). *Stock Return Characteristics, Skew Laws, and the Differential Pricing of Individual Equity Options*. The Review of Financial Studies, 16(1), 101–143.
