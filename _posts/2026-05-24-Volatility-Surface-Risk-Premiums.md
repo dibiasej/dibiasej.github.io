@@ -31,7 +31,7 @@ There are numerous risk premiums related to the volatility surface. Broadly spea
 
 ## Variance Risk Premium
 
-In the world of options and volatility, this is by far the most well known risk premium. Economically, the variance risk premium can be viewed as compensation earned by investors willing to sell volatility insurance, since short-volatility positions tend to lose money during market crashes when protection is most valuable. Another reason the variance risk premium exists is because institutions generally overpay for downside protection to insure there portfolios. It is typically measured as the difference between implied volatility and realized volatility. For the realized component, we can estimate volatility using the sum of squared log returns. For the implied component, I prefer using the fixed leg of a variance swap with the corresponding maturity, which can be approximated using a strip of OTM puts and calls.
+In the world of options and volatility, this is by far the most well known risk premium. Economically, the variance risk premium can be viewed as compensation earned by investors willing to sell volatility insurance, since short-volatility positions tend to lose money during market crashes when protection is most valuable. Another reason the variance risk premium exists is because institutions generally overpay for downside protection to insure there portfolios and this lifts the price of downside puts. Variance risk premium is typically measured as the difference between implied volatility and realized volatility. For the realized component, we can estimate volatility using the sum of squared log returns. For the implied component, I prefer using the fixed leg of a variance swap with the corresponding maturity, which can be approximated using a strip of OTM puts and calls.
 
 There are, however, some caveats to these estimation methods. For example, realized volatility can be estimated in many different ways, and those statistical approaches are widely discussed, so I will not go into them here. On the implied side, we could also use ATM implied volatility as a simpler proxy for the risk premium, although the variance swap estimate is generally a more complete measure because it incorporates information from across the volatility surface.
 
@@ -47,7 +47,7 @@ I wont talk any more about the vrp because it is widely talked about and researc
 
 ## Skew/Skewness Risk Premium
 
-If the variance risk premium measures the premium related to dispersion (statistically speaking) then the skewness/skew risk premium measures the premium related to asymmetry. Economic rationale. Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable, but I will give a few metrics that can be used to approximate this risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). 
+If the variance risk premium measures the premium related to dispersion (statistically speaking) then the skewness/skew risk premium measures the premium related to asymmetry. In the realized world skewness risk premiums arises because stock prices and returns fall a lot faster than they rise (asymmetric distribution). In the implied world skew risk premium arises because of a related reason but better attributed to spot vol correlation being negative and investors generally buy downside puts and sell upside calls causing a skew (at least in equities). Unlike the vrp there is no agreed upon metric used to quantify this and cannot be measured directly because the conditional physical density is not observable, but I will give a few metrics that can be used to approximate this risk premium. Just like the vrp we define the premia as the difference between expected skewness/skew under the risk-neutral measure (implied) and expected skewness/skew under the physical measure (realized). 
 
 $$
 \text{SRP}_{t,T}
@@ -63,7 +63,7 @@ $$
 \right]
 $$
 
-There is a difference between skew and skewness in both the implied and realized sense. This difference is partly terminology and partly mathematical, in practice, people often use them interchangably and loosely. Generally skew has to do with the shape of the surface/volatility curve and it is linked to risk-neutral skewness but not an exact measurement of it. Where skewness on the other hand directly relates to the third standardized moment of the risk-neutral or physical distribution. This is most obviously seen in our measurements for realized skew and skewness, where realized skew is historical returns scaled by a fixed leg of a variance swap as to incorprate the skew in some way, and realized skewness is historical returns scaled by realized volatility. Skew incorporates the curve, skewness the historical returns.
+There is a difference between skew and skewness in both the implied and realized sense. This difference is partly terminology and partly mathematical, in practice, people often use them interchangably and loosely. Generally skew has to do with the shape of the surface/volatility curve and it is linked to risk-neutral skewness but not an exact measurement of it. Where skewness on the other hand directly relates to the third standardized moment of the risk-neutral or physical distribution. This is most obviously seen in our measurements for realized skew and skewness, where realized skew is a metric for the third moment using historical returns scaled by a fixed leg of a variance swap as to incorprate the skew in some way, and realized skewness is a third moment using historical returns scaled by realized volatility. Skew incorporates the curve, skewness is purely the historical returns.
 
 I quantify the skew risk premium using the difference between implied and realized spot-vol covariance as defined below. Implied spot-vol covaraince is found from the instantaneous ATM skew of a implied volatility curve. This can be approximated using calibrated implied parameters from volatility a model, in this post I use SABR and GVV volatility models.
 
@@ -188,7 +188,7 @@ rs_{t,T}
 \right]
 $$
 
-This is actually very similar to the realized skewness third moment definition defined above except we are deviding by a different form of variance derived from a skew curve. They then go on to define skew risk premium as rskew/skew - 1, and we plot these below.
+This is actually very similar to the realized skewness third moment definition defined above except we are dividing by a different form of variance derived from a skew curve. They then go on to define skew risk premium as rskew/skew - 1, and we plot these below.
 
 ![Neuberger Skew Risk Premium](/assets/images/neuberger_implied_realized_skew_risk_premium-2026-05-25.png)
 
@@ -208,6 +208,7 @@ Before we move on to vol-of-vol risk premium there are some other metrics relate
   \frac{\text{90 put IV} - \text{110 call IV}}
   {\left(\text{90 put strike} - \text{110 call strike}\right) / F}
   $$
+- A lot of sources like Natenbergs book call 90% put IV - 110% call IV (similar for 25 delta) implied skewness, like I said the nomenclature gets messy I consider this skew but as long as you know what you are calculating and understand math I think it is fine.
 
 ![Spot Vol Correlations](/assets/images/spot_vol_correlations-2026-05-25.png)
 
