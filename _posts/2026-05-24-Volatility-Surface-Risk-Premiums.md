@@ -87,7 +87,7 @@ To quantify skewness risk premium I use implied skewness minus realized skewness
 
 Implied skewness is a model-free metric derived from OTM puts and calls, I follow the skew-swap framework of Kozhan, Neuberger, and Schneider (2012) and Ito (2025) to derive this. Under these frameworks implied skewness is essentially the fixed leg of a skew swap divided by a variance/log contract. 
 
-Neuberger directly defines the fixed leg of a skew swap as a entropy contract minus a log contract.  
+Neuberger directly defines the fixed leg of a skew swap as an entropy contract minus a log contract.  
 
 - Kozhan, Neuberger, and Schneider (2012)
 
@@ -130,7 +130,7 @@ v^{E}_{t,T}
 \Delta I(K_i)
 $$
 
-And Ito (2025) uses a similar formulation. The fixed leg of a skew swap can also be defined as a specific weighting of OTM puts and calls. The below formula is exactly the same as a entropy contract minus a log. This formula was derived following Lee (2024)
+And Ito (2025) uses a similar formulation. The fixed leg of a skew swap can also be defined as a specific weighting of OTM puts and calls. The below formula is exactly the same as an entropy contract minus a log contract. This formula was derived following Lee (2024)
 
 $$
 K_s =
@@ -148,7 +148,7 @@ K_s =
 \right)
 $$
 
-I plot these below using daily S&P 500 options data and as you can see both Ito and Neubergers frameworks are in line over time. You can find the code implementation on my GitHub under py_op
+I plot these below using daily S&P 500 options data and as you can see both Ito and Neuberger's frameworks are in line over time. You can find the code implementation on my GitHub under py_op
 
 ![Skew Swap Fixed Legs](/assets/images/skew_swap_strikes-2026-05-25.png)
 
@@ -163,7 +163,7 @@ Ito (2025) then quantifies skewness risk premium by subtracting the implied and 
 
 ![Akio Ito Skew Risk Premium](/assets/images/akio_implied_realized_skewness_risk_premium-2026-05-25.png)
 
-Kozhan, Neuberger, and Schneider (2012) use a slightly different approach. It is important to note their paper claims to be estimating skew risk premium not skewness even though they use the same fixed leg of a skew swap as Ito, this is exactly where the nomenclature around skew and skewness gets messy. What is important to remember is essentially any framework around a higher moment risk premium is always estimating an implied minus realized value, and importantly both derivations claim these correspond to a fixed leg and floating leg of a skew swap. The floating leg of their skew swap estimate of skewness risk premium, as we already defined above is some statistical estimate of a thrid moment scaled by a variance swap fixed leg and they define it as realized skew as well. 
+Kozhan, Neuberger, and Schneider (2012) use a slightly different approach. It is important to note their paper claims to be estimating skew risk premium not skewness even though they use the same fixed leg of a skew swap as Ito, this is exactly where the nomenclature around skew and skewness gets messy. What is important to remember is essentially any framework around a higher moment risk premium is always estimating an implied minus realized value, and importantly both derivations claim these correspond to a fixed leg and floating leg of a skew swap. The floating leg of their skew swap estimate of skewness risk premium, as we already defined above is some statistical estimate of a third moment scaled by a variance swap fixed leg and they define it as realized skew as well. 
 
 $$
 \operatorname{rskew}_{t,T} 
@@ -200,7 +200,7 @@ Based on the above metrics we have three different measurements for our risk pre
 
 Under these frameworks the risk premium can be interpreted as the expected payoff of a skew swap. Most traders capture the premia using option structures like delta hedged risk reversals or some weighting of short OTM puts and long OTM calls.
 
-Before we move on to vol-of-vol risk premium there are some other metrics related to skew I would like to briefly discuss. These metrics are the implied and realized spot-vol correlation and a Normalized 90% - 110% moneyness IV skew slope. These are also metrics that are commonly used by volatility traders to estimate some form of co movement in spot and vol and are important to know. Below we show rolling metrics for realized and implied spot-vol correlation, where the realized correlation is estimated using historical log returns and ATM IV and the implied correlation is estimated using a calibrated parameter from a stochastic volatility model, or directly taken from the skew curve.
+Before we move on to vol-of-vol risk premium there are some other metrics related to skew I would like to briefly discuss. These metrics are the implied and realized spot-vol correlation and a Normalized 90% - 110% moneyness IV skew slope. These are also metrics that are commonly used by volatility traders to estimate some form of co-movement in spot and vol and are important to know. Below we show rolling metrics for realized and implied spot-vol correlation, where the realized correlation is estimated using historical log returns and ATM IV and the implied correlation is estimated using a calibrated parameter from a stochastic volatility model, or directly taken from the skew curve.
 
 - Normalized 90% - 110% moneyness IV skew slope
  
@@ -208,24 +208,24 @@ Before we move on to vol-of-vol risk premium there are some other metrics relate
   \frac{\text{90 put IV} - \text{110 call IV}}
   {\left(\text{90 put strike} - \text{110 call strike}\right) / F}
   $$
-- A lot of sources like Natenbergs book call 90% put IV - 110% call IV (similar for 25 delta) implied skewness, like I said the nomenclature gets messy I consider this skew but as long as you know what you are calculating and understand math I think it is fine.
+- A lot of sources like Natenberg's book call 90% put IV - 110% call IV (similar for 25 delta) implied skewness, like I said the nomenclature gets messy I consider this skew but as long as you know what you are calculating and understand math I think it is fine.
 
 ![Spot Vol Correlations](/assets/images/spot_vol_correlations-2026-05-25.png)
 
 Notice how closely the different implied spot-vol correlation measures track each other. The GVV estimate, SABR estimate, and the 90%-110% moneyness skew approximation all show similar dynamics, suggesting that each method is capturing a similar implied spot-vol relationship
 
-Of all the volatility surface related premia discussed in this post, the skew, or skewness, risk premium has the least consensus around how it should be estimated. Hopefully, this section outlined a few useful metrics that you can apply in your own research. Now, we move on to the final premium I want to discuss: the volatility-of-volatility risk premium.
+Of all the volatility surface related premia discussed in this post, the skew, or skewness, risk premium has the least consensus around how it should be estimated. Hopefully, this section outlined a few useful metrics that you can apply in your own research. Now, we move on to the final premium I want to discuss, the volatility-of-volatility risk premium.
 
 ## Volatility of Volatility Risk Premium (VVRP)
 
-Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. Vol-of-vol is generally related to the statistical moment kurtosis, and implied/realized vol-of-vol and kurtosis are used loosely and interchageably. Vol-of-vol is not itself the same as kurtosis, but in stochastic volatility models, higher vol-of-vol tends to generate fatter tails and higher risk-neutral kurtosis. In the literature, implied kurtosis is more akin to implied skew where it can be estimated using implied volatilities for certain OTM options, where as implied vol-of-vol is generally some parameter from a model. We will discuss multiple methods for calculating all these below. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflys or other related option structures.
+Similar to the skew risk premium, there is no single consensus metric for estimating the vol-of-vol risk premium. Vol-of-vol is generally related to the statistical moment kurtosis, and implied/realized vol-of-vol and kurtosis are used loosely and interchangeably. Vol-of-vol is not itself the same as kurtosis, but in stochastic volatility models, higher vol-of-vol tends to generate fatter tails and higher risk-neutral kurtosis. In the literature, implied kurtosis is more akin to implied skew where it can be estimated using implied volatilities for certain OTM options, whereas implied vol-of-vol is generally some parameter from a model. We will discuss multiple methods for calculating all these below. Traders can harvest the vol-of-vol risk premia by trading delta-hedged butterflies or other related option structures.
 
 ###### Implied Vol-of-Vol:
 - GVV estimated implied vol-of-vol parameter
 - SABR estimated implied vol-of-vol parameter
 - VVIX Index 
 
-Vol-of-vol from GVV and SABR are implied parameters and are derived by using a calibration or numerical procedure to fit a stochastic volatitility model and back out there values. Alternatively VVIX is a model free apoproach to estimate implied vol-of-vol using the same variance swap fixed leg calculation on OTM puts and calls on the VIX index. 
+Vol-of-vol from GVV and SABR are implied parameters and are derived by using a calibration or numerical procedure to fit a stochastic volatility model and back out their values. Alternatively VVIX is a model free apoproach to estimate implied vol-of-vol using the same variance swap fixed leg calculation on OTM puts and calls on the VIX index. 
 
 ![Implied Vol of Vols](/assets/images/implied_vol_of_vol-2026-06-07.png)
 
@@ -235,7 +235,7 @@ Vol-of-vol from GVV and SABR are implied parameters and are derived by using a c
 - Rolling historical volatility of the close-to-close volatility estimate
 - Rolling historical volatility of VIX Future
 
-Similar to a rolling realized volatility calculation, realized vol-of-vol can be calculated using a historical rolling statistical estimate of volatility on some statistical estimate of volatility. 
+Similar to a rolling realized volatility calculation, realized vol-of-vol can be calculated using a historical rolling statistical estimate of volatility on some estimate of volatility. 
 
 ![Realized Vol of Vols](/assets/images/realized_vol_of_vol-2026-06-07.png)
 
@@ -245,7 +245,7 @@ Similar to a rolling realized volatility calculation, realized vol-of-vol can be
 - 0.5(call IV + put IV) - atm IV (Butterfly)
 - Model Free Implied Kurtosis following Bakshi, Kapadia and Madan (2003)
 
-These are all generated using specific options at a fixed maturity, this is similar to how you might estimate implied skew from a volatility curve and is related to the curvature of the curve. While it is not directly an implied vol-of-vol estimate it is related. The butterfly IV can be estimated using either 5 delta options or 25 delta. In Natenbergs Volatilty Trading he swaps the call and put around but either metric is useful as long as you remember how you are calculating it. The model free implied kurtosis is a similar approach to estimating a risk-neutral moment from options prices as the model free implied skewness approach from Ito, we leave out the formula here but it can be found in their paper. 
+These are all generated using specific options at a fixed maturity, this is similar to how you might estimate implied skew from a volatility curve and is related to the curvature of the curve. While it is not directly an implied vol-of-vol estimate it is related. The butterfly IV can be estimated using either 5 delta options or 25 delta. In Natenbergs Volatility Trading he swaps the call and put around but either metric is useful as long as you remember how you are calculating it. The model free implied kurtosis is a similar approach to estimating a risk-neutral moment from options prices as the model free implied skewness approach from Ito, we leave out the formula here but it can be found in their paper. 
 
 ![Implied Kurtosis](/assets/images/implied_kurtosis_metrics-2026-06-07.png)
 
@@ -273,7 +273,7 @@ Overall, the volatility surface contains a lot more information than just the ma
 
 None of these estimates are perfect. Each depends heavily on the methodology used, the maturity chosen, the option data available, and the realized metric used for comparison. Still, I think these measures are useful because they give us a structured way to think about what the options market is pricing beyond simple directional views.
 
-In future posts I will discuss risk premiums related dispersion/correlation and the rough volatility risk premium which relates to market implied roughness of the volatiulity path versus what is actually realized. Hopefully this post provided a useful information for thinking about volatility-surface-related risk premiums and some of the ways they can be estimated. As always, all of the code and charts used in this post are available on my GitHub, and I am always open to feedback, corrections, or ideas for improving the analysis.
+In future posts I will discuss risk premiums related dispersion/correlation and the rough volatility risk premium which relates to market implied roughness of the volatility path versus what is actually realized. Hopefully this post provided useful information for thinking about volatility-surface-related risk premiums and some of the ways they can be estimated. As always, all of the code and charts used in this post are available on my GitHub, and I am always open to feedback, corrections, or ideas for improving the analysis.
 
 ## References
 
