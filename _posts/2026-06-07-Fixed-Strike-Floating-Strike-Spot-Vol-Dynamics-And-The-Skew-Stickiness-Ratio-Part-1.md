@@ -13,8 +13,12 @@ I am going to start off by simply defining these terms and maybe giving you a fe
 ### Fixed Strike - Floating Strike Volatility
 What does it mean to parameterize a volatility surface, well in mathematical terms we can represent the volatility surface as some function $\sigma(.)$ that has specific parameters that when we plug them in we get an implied volatility. On a fixed strike basis the parameters would be strike K and maturity T $\sigma(K, T)$. In general I like to think about the parameterization of the volatility suraface as how we define the x-axis, for fixed strike we use our strikes and for floating strike it would be something like delta $\sigma(\Delta, T)$ or moneyness $\sigma(k, T)$ ($k = log(K / F)$).
 
-What really helped me understand these topics is reading through Emanuel Dermans volatility class lectures. In the lectures he explores fixed strike and floating strike vol from a time series perspective and I want to show that here. Below I show a time series of multiple fixed strike volatilities, that means at the starting date we choose an option with a specific strike and plot how that same strike option changes everyday, in our example we start at date (fill date here) and set the strike to be (fill strike here) and every day going forward we plot the same IV of the (fill strike here) strike option.
+What really helped me understand these topics is reading through Emanuel Dermans volatility class lectures. In the lectures he explores fixed strike and floating strike vol from a time series perspective and I want to show that here. Below I show a time series of multiple fixed strike volatilities, that means at the starting date we choose an option with a specific strike and plot how that same strike option changes everyday, in our example we start at 2026-01-01 and set the strike to be 660 on the lower end and 700 on the higher end when spot is at 680. Every day going forward we plot the same IV for those strike options keeping them fixed.
 
 ![Fixed Strike Vol](/assets/images/SPY_Fixed_Strike_Vol_2026-05-24.png)
+
+Also it should be noted just like fixed and floating strike we can have a constant maturity (dte) or expiration date and we show that above. A constatn expiration is the same expiration date and therefore same option contract throughout the whole time series. This is extremeley important with respects to backtesting and strategy rebalancing so it is important to be cognizant of that.
+
+
 
 In Progress -- Stay Tuned
