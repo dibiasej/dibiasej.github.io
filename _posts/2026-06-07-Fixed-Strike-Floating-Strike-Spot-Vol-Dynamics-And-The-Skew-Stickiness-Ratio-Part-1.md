@@ -1,6 +1,6 @@
 ---
 layout: post
-title: "Fixed Strike Volatility, Floating Strike Volatility, Spot Vol Dynamics And The Skew Stickiness Ratio Part 1"
+title: "(In Progress Not Finished) Fixed Strike Volatility, Floating Strike Volatility, Spot Vol Dynamics And The Skew Stickiness Ratio Part 1"
 date: 2026-06-07
 ---
 
@@ -39,10 +39,21 @@ This is best illustrated using a skew term structure at a static point in time. 
 
 ### Spot Vol Dynamics
 Definition: Mention 3 regimes from collin bennet and SSR briefly
+As mentioned above spot vol dynamics are wildly important for volatility trading. The profitability of skew trades like a long (short) delta hedged risk reversal directly depend on the dynamics of the volatility surface. Also the delta we choose to hedge with depends on how we expect vol to move as spot moves. The two most common spot vol dynamic "regimes" that are commonly talked about are sticky strike and sticky delta. I want to illustrate below how these regimes will affect a delta hedged long risk reversal, ie long skew. As will see below in both regimes our position will lose money.
 
-Out skew Curves
+Essentially sticky strike says as spot moves the atm iv will just float along the skew curve, if yesterday spot was 100 with atm iv 22 and the 110 strike iv was 20, then tomorrow if spot moves to 110 the atm iv will be 20. (mention first scenario)
+
+add first scenario fig
+
+Sticky delta is different, this assumption says the atm vol (actually whole skew curve) remains constant. In our above example as spot moves from 100 to 110, atm iv stays at 22, essentially the whole skew curve shifts. (mention second scenarios)
+
+add second scenario fig
+
+
 
 SSR:
+
+Notes: maybe also mentions spot skew and spot kurtosis dymaics
 
 ### Risk Reversal 3 Scenarios
 
