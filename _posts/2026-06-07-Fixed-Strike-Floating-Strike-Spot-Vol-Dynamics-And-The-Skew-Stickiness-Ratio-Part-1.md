@@ -33,10 +33,12 @@ Fixed strike skew = 90% moneyness IV - 110% moneyness IV
 
 Floating strike skew = $$\frac{\sigma_{25\Delta\,\mathrm{put}} - \sigma_{25\Delta\,\mathrm{call}}}{\sigma_{50\Delta}}$$
 
+This is best illustrated using a skew term structure at a static point in time. In the below chart the fixed strike skew uses the same strikes for every single maturity whereas the floating strike skew uses the same deltas for every maturity which gives us different corresponding strikes. This will wildly affect our skew estimates for short expirations. Note in the chart I labeled these as spot-vol beta term structures but really they are the same objects just slightly different calculations.
+
+![Spot Vol Beta Term Structure](/assets/images/SPY-Spot-Vol-Beta-Term-Structure-Post-2026-07-02.png)
+
 ### Spot Vol Dynamics
 Definition: Mention 3 regimes from collin bennet and SSR briefly
-
-One hot code:
 
 Out skew Curves
 
