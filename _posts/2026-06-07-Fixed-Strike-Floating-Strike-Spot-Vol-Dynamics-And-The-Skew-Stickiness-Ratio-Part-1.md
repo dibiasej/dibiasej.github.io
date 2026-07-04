@@ -110,21 +110,19 @@ $$
 Each regime dynamic gives us a different skew delta. Under sticky delta our skew delta is greater than BS delta, under sticky local vol it is greater under sticky strike we get the same as BS delta. Skew delta is a big topic and there are many different formulas for it and can be model dependent. How important are these regime dynamics to trading though? To quote Benn Eifert once again it is probably best if you just forget sticky strike and sticky delta exist all together. I know I just spend the last part of the article talking about sticky stirke and sticky delta but they really are more educational and used to frame how we can start to think about spot vol dynamics. Most traders or quants model spot vol dynamics themselves and bake that number into there skew delta calculation. One way to do this, and what we talk about next, is the skew stickiness ratio (SSR).
 
 ### Skew Stickiness Ratio (SSR)
-How ATM IV moves with respect to spot really never follows sticky strike, sticky delta or the skew curve in general. When spot moves the corresponding move in vol is stepper than the skew would imply. The SSR takes this affect into account when determining the spot vol dynamics then normalizes it by the skew curve. The SSR is basically telling us when spot moves how much do we expect ATM vol to move with it. There are multiple formulations of it but just like most things in the volatility world there is an implied version derived from a model and a realized version derived from market data.
+How ATM IV moves with respect to spot really never follows sticky strike, sticky delta or the skew curve. When spot moves the corresponding move in vol is steeper than the skew would imply. The SSR takes this affect into account when determining spot vol dynamics then normalizes it by the skew curve. The SSR was created by Lorenzo Bergomi and he first introduced in his paper smile dynamics 4. The SSR is basically telling us when spot moves how much do we expect ATM vol to move with it. There are multiple formulations of it but just like most things in the volatility world there is an implied version derived from a model and a realized version derived from market data.
 
 Realized SSR:  
 
 $$
-\frac{\dfrac{\partial \sigma_{0}^{\mathrm{real}}}{\partial F}}
+\frac{\dfrac{\partial \sigma_{0}}{\partial F}}
      {\dfrac{\partial \sigma}{\partial K}}
 $$
+
+The numerator in this can literally be estimated as the beta coefficient from a regression of changes in atm IV against log returns (Forward prices)
 
 Implied SSR:
 
-$$
-\frac{\dfrac{\partial \sigma_{0}^{\mathrm{impl}}}{\partial F}}
-     {\dfrac{\partial \sigma}{\partial K}}
-$$
 
 Notes: maybe also mentions spot skew and spot kurtosis dymaics
 
