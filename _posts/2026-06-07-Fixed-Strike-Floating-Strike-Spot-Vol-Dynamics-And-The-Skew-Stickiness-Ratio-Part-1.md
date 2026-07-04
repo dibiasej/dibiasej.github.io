@@ -1,7 +1,7 @@
 ---
 layout: post
 title: "(In Progress Not Finished) Fixed Strike Volatility, Floating Strike Volatility, Spot Vol Dynamics And The Skew Stickiness Ratio Part 1"
-date: 2026-06-07
+date: 2026-07-04
 ---
 
 ## Intro
@@ -171,27 +171,19 @@ $$
 
 </div>
 
-old
+Both above formulas are the same. The implied SSR is calculated from model parameters so its formulation can be model dependent. We can use the SSR derived from some model to actually test how well the model describes market dynamics. Some volatility models have an amazing fit for the surface but there SSR is completely off, this is the case for Local vol models where we get an exact surface fit, but and SSR of 2 which isnt an accurate description of spot vol dynamics. I am not sure about this but the only analytically tractable implied SSR I could find is from the 2-factor Bergomi model, which makes sense because he literally created the SSR, but I show the formula below:
 
 $$
 R(T)
 =
 \frac{
-\mathbb{E}\!\left[d\hat{\sigma}_{ATM}(T)\, d\ln S\right]
+\displaystyle\sum_i w_i \rho_i \, \frac{1-e^{-k_iT}}{k_iT}
 }{
-\psi(T)\,\mathbb{E}\!\left[(d\ln S)^2\right]
+\displaystyle\sum_i w_i \rho_i \, \frac{k_iT-\left(1-e^{-k_iT}\right)}{(k_iT)^2}
 }
 $$
-$$
-R_{t,T}
-=
-\frac{1}{S_t \,\psi_T}
-\frac{\partial_t \left\langle \sigma^T, \log S \right\rangle}
-{\partial_t \left\langle \log S, \log S \right\rangle}
-$$
 
-The implied SSR is calculated from model parameters
-
-Notes: maybe also mentions spot skew and spot kurtosis dymaics
+### Conclusion
+In this post I really only scrathced the surface (no pun intended) on spot vol dynamics, fixed strike and floating strike and the SSR. A lot of the stuff I touched on only measure how spot moves with the ATM IV but what about other parts of the surface? Just like we estimate a beta for the change in ATM IV wrt spot we can estimate how a risk reversal (skew) or butterfly (convexity) change with spot. We can also replace the ATM IV in the SSR with some floating strike vol like 90% moneyness or 25 delta put and calculate the SSR wrt those vols. There is litterally a whole surface to explore and modeling how the whole surface changes as spot changes can give vol traders a huge edge. This is something I would like to explore in future posts but I'm sure your tired of reading this one so we end it here. I hope you enjoyed and learned someting, also if you are a practicioner in the field and want to connect you can find my LinkedIn on the home page of this website, I would love to learn more if there is anything you can introduce to me!
 
 In Progress -- Stay Tuned
