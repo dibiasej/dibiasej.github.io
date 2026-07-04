@@ -67,9 +67,9 @@ Sticky delta is different, this assumption says the atm vol (actually whole skew
 
 We have the same initial put price, call price and position delta, but because our option positions IV change at t2 we will get different prices.
 
-Put price t2 = 2.73
+Put price t2 = 0.13
 
-Call price t2 = 0.127
+Call price t2 = 2.73
 
 Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 4627
 
@@ -81,8 +81,35 @@ Scenario 3: Delta Hedged Long Skew P&L Under Sticky Local Volatility Dynamics
 
 As far as I know this was defined by Collin Bennet in his great book "Trading Volaitility". Local volatility is another way of modeling vol where we assume the instantaneous volatility is a function of the current asst price and time $$\sigma_{loc} = sigma_{loc}(S, t)$$. My favorite definition of local volatility once again comes from Emanuel Dermans lecture series where he defines local vol as the volatility that justifies current option prices given spot is at a certain level at a certain time. I can write a whole post about local vol and maybe one day I will but will leave it at that for now. In the sticky local volatility regime we assume that atm IV rises as the market falls, ie negative spot vol correlation. But unlike the other volatility dynamics sticky local volatility is not a unique transformation of the smile, as spot moves the exact way the skew rotates depends on the calibrated local volatility surface. Below we show a skew shift that would be advantageous to our Long skew position.
 
-![Sticky Local Vol Dynamics](/assets/images/Sticky-Local-Vol-Dynamics-Scenario-3-2026-07-02.png.png)
+![Sticky Local Vol Dynamics](/assets/images/Sticky-Local-Vol-Dynamics-Scenario-3-2026-07-02.png)
 
+Remeber in this scenario the 95 strike put IVs rise from t1 to t2 and the 105 strike call IVs fall.
+
+Put price t1 = 1.147
+
+Call price t1 = 1.04
+
+Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 5200
+
+Put price t2 = 0.12
+
+Call price t2 = 2.15
+
+Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 5247
+
+Portfolio P&L = Portfolio notional value t1 - Portfolio notional value t1 = 47 
+
+You can see in this regime dynamic we actually make money on the long skew trade.
+
+Now I didn't actually mention what my delta was in any of these scenarios and this is an important piece. For the first two scenarios it was -.47 and the third was -.5 and so we buy stock against that to hedge. But the thing is here I used a basic Black Scholes delta, in reality when you are trading skew you would want to use a "skew delta" which essentially adjusts our delta for how vol will move when spot moves. 
+
+$$
+\[
+\Delta = \Delta_{BS} + \text{Vega}\,\frac{\partial \sigma_{\mathrm{imp}}(S,K,T)}{\partial S}
+\]
+$$
+
+Each regime dynamic gives us a different skew delta
 
 SSR:
 
