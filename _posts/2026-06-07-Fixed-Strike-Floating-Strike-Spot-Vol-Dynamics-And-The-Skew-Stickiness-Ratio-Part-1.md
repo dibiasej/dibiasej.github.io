@@ -101,17 +101,30 @@ Portfolio P&L = Portfolio notional value t1 - Portfolio notional value t1 = 47
 
 You can see in this regime dynamic we actually make money on the long skew trade.
 
-Now I didn't actually mention what my delta was in any of these scenarios and this is an important piece. For the first two scenarios it was -.47 and the third was -.5 and so we buy stock against that to hedge. But the thing is here I used a basic Black Scholes delta, in reality when you are trading skew you would want to use a "skew delta" which essentially adjusts our delta for how vol will move when spot moves. 
+Now I didn't actually mention what my delta was in any of these scenarios and this is an important piece. For the first two scenarios it was -.47 and the third was -.5 and so we buy stock against that to hedge. But the thing is here I used a basic Black Scholes delta, in reality when you are trading skew you would want to use a "skew delta" which essentially adjusts our delta for how vol will move when spot moves. For equities this will give us a lower delta than BS because if we assume a negative spot vol correlation. 
 
 $$
-\[
 \Delta = \Delta_{BS} + \text{Vega}\,\frac{\partial \sigma_{\mathrm{imp}}(S,K,T)}{\partial S}
-\]
 $$
 
-Each regime dynamic gives us a different skew delta
+Each regime dynamic gives us a different skew delta. Under sticky delta our skew delta is greater than BS delta, under sticky local vol it is greater under sticky strike we get the same as BS delta. Skew delta is a big topic and there are many different formulas for it and can be model dependent. How important are these regime dynamics to trading though? To quote Benn Eifert once again it is probably best if you just forget sticky strike and sticky delta exist all together. I know I just spend the last part of the article talking about sticky stirke and sticky delta but they really are more educational and used to frame how we can start to think about spot vol dynamics. Most traders or quants model spot vol dynamics themselves and bake that number into there skew delta calculation. One way to do this, and what we talk about next, is the skew stickiness ratio (SSR).
 
-SSR:
+### Skew Stickiness Ratio (SSR)
+How ATM IV moves with respect to spot really never follows sticky strike, sticky delta or the skew curve in general. When spot moves the corresponding move in vol is stepper than the skew would imply. The SSR takes this affect into account when determining the spot vol dynamics then normalizes it by the skew curve. The SSR is basically telling us when spot moves how much do we expect ATM vol to move with it. There are multiple formulations of it but just like most things in the volatility world there is an implied version derived from a model and a realized version derived from market data.
+
+Realized SSR:  
+
+$$
+\frac{\dfrac{\partial \sigma_{0}^{\mathrm{real}}}{\partial F}}
+     {\dfrac{\partial \sigma}{\partial K}}
+$$
+
+Implied SSR:
+
+$$
+\frac{\dfrac{\partial \sigma_{0}^{\mathrm{impl}}}{\partial F}}
+     {\dfrac{\partial \sigma}{\partial K}}
+$$
 
 Notes: maybe also mentions spot skew and spot kurtosis dymaics
 
