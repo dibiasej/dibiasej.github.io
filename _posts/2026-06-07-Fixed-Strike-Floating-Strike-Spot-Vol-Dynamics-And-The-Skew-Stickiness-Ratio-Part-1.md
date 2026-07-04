@@ -110,13 +110,20 @@ $$
 Each regime dynamic gives us a different skew delta. Under sticky delta our skew delta is greater than BS delta, under sticky local vol it is greater under sticky strike we get the same as BS delta. Skew delta is a big topic and there are many different formulas for it and can be model dependent. How important are these regime dynamics to trading though? To quote Benn Eifert once again it is probably best if you just forget sticky strike and sticky delta exist all together. I know I just spend the last part of the article talking about sticky stirke and sticky delta but they really are more educational and used to frame how we can start to think about spot vol dynamics. Most traders or quants model spot vol dynamics themselves and bake that number into there skew delta calculation. One way to do this, and what we talk about next, is the skew stickiness ratio (SSR).
 
 ### Skew Stickiness Ratio (SSR)
-How ATM IV moves with respect to spot really never follows sticky strike, sticky delta or the skew curve. When spot moves the corresponding move in vol is steeper than the skew would imply. The SSR takes this affect into account when determining spot vol dynamics then normalizes it by the skew curve. The SSR was created by Lorenzo Bergomi and he first introduced in his paper smile dynamics 4. The SSR is basically telling us when spot moves how much do we expect ATM vol to move with it. There are multiple formulations of it but just like most things in the volatility world there is an implied version derived from a model and a realized version derived from market data.
+How ATM IV moves with respect to spot really never follows sticky strike, sticky delta or the skew curve. When spot moves the corresponding move in vol is steeper than the skew would imply. The SSR takes this affect into account when determining spot vol dynamics then normalizes it by the skew curve. The SSR was created by Lorenzo Bergomi and he first introduced it in his paper smile dynamics 4. The SSR is basically telling us when spot moves how much do we expect ATM vol to move with it. A general formual for it can be defined as:
+
+$$
+SSR = \frac{\dfrac{\partial \sigma_{0}}{\partial F}}
+     {\dfrac{\partial \sigma}{\partial K}}
+$$
+
+The numerator can literally be estimated as the beta coefficient from a regression of changes in atm IV against log returns (Forward prices) and the denominator is estimates from the implied skew curve at a given date. For equities the SSR is usally around 1.5 but in left tail scenarios we can see it jump to 2. If the market did actually follow one of out above defined spot vol dynamic regimes we would get a SSR = 1 under sticky strike, SSR = 0 under sticky delta and SSR = 2 under sticky local vol. 
+
+There are multiple formulations of the SSR but just like most things in the volatility world there is an implied version derived from a model and a realized version derived from market data.
 
 Realized SSR:  
 
 $$
-\frac{\dfrac{\partial \sigma_{0}}{\partial F}}
-     {\dfrac{\partial \sigma}{\partial K}}
 
 \mathcal{R}_T =
 \frac{
@@ -131,11 +138,40 @@ $$
 }
 $$
 
-The numerator in this can literally be estimated as the beta coefficient from a regression of changes in atm IV against log returns (Forward prices) and the denominator is estimates from the implied skew curve at a given date. In the below chart I used the second formula which came directly from Bergomi smile dynamics 4 paper where the SSR was originally introduced. Its important to note in the calculation of formula two it is not a traditional realized spot vol beta calculation because we include the implied skew in the summation with log returns squared in the denominator. I'm not sure if we can use an instantaneous implied skew slop estimate in the denominator here or one taked from actual data (like 90% - 110%) because it isnt technically realized it would be estimated from a model so I derive it using market data.
+In the below chart I used the above formula which came directly from Bergomi smile dynamics 4 paper where the SSR was originally introduced. Its important to note in this calculation it is not a traditional realized spot vol beta calculation because we include the implied skew in the summation with log returns squared in the denominator. I'm not sure if we can use an instantaneous implied skew slop estimate in the denominator here or one from actual data (like 90% - 110%) because it isnt technically realized it would be estimated from a model so I derive it using market data.
 
 ![Realized Skew Stickiness Ratio](/assets/images/SPY-SSRS-Post-2026-07-02.png)
 
+The value of SSR is typically between 1 and 2 and 1.5 on average for equties but as with any realized calculation it is an estimate and can get messy so that is why we see values jump above 2.
+
 Implied SSR:
+
+<div style="text-align:center; font-size:1.4em;">
+
+$$
+\begin{aligned}
+R(T)
+&=
+\frac{
+\mathbb{E}\!\left[d\hat{\sigma}_{ATM}(T)\, d\ln S\right]
+}{
+\psi(T)\,\mathbb{E}\!\left[(d\ln S)^2\right]
+}
+\qquad
+R_{t,T}
+&=
+\frac{1}{S_t \,\psi_T}
+\frac{
+\partial_t \left\langle \sigma^T, \log S \right\rangle
+}{
+\partial_t \left\langle \log S, \log S \right\rangle
+}
+\end{aligned}
+$$
+
+</div>
+
+old
 
 $$
 R(T)
