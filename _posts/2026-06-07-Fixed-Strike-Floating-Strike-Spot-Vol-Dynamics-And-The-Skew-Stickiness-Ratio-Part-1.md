@@ -38,15 +38,29 @@ This is best illustrated using a skew term structure at a static point in time. 
 ![Spot Vol Beta Term Structure](/assets/images/SPY-Spot-Vol-Beta-Term-Structure-Post-2026-07-02.png)
 
 ### Spot Vol Dynamics
-As mentioned above spot vol dynamics are wildly important for volatility trading. The profitability of skew trades like a long (short) delta hedged risk reversal directly depend on the dynamics of the volatility surface. Also the delta we choose to hedge with depends on how we expect vol to move as spot moves. The two most commonly talked about spot vol dynamic "regimes" are sticky strike and sticky delta. I want to illustrate below how these regimes will affect a delta hedged long risk reversal, ie long skew. In my examples I will use a linearly inverted skew curve for simplicity, and show how the value of our option positions will change based on a move in spot and a move in the skew curve over a 15 day period. As will see below in both regimes our position will lose money.
+As mentioned above spot vol dynamics are wildly important for volatility trading. The profitability of skew trades like a long (short) delta hedged risk reversal directly depend on the dynamics of the volatility surface. Also the delta we choose to hedge with depends on how we expect vol to move as spot moves. The two most commonly talked about spot vol dynamic "regimes" are sticky strike and sticky delta. I want to illustrate below how these regimes will affect a delta hedged short risk reversal, ie long skew. In my examples I will use a linearly inverted skew curve for simplicity, and show how the value of our option positions will change based on a move in spot and a move in the skew curve over a 15 day period. As will see below in both regimes our position will lose money.
 
-Essentially sticky strike says as spot moves the atm iv will just float along the skew curve, if yesterday spot was 100 with atm iv 22 and the 110 strike iv was 20, then tomorrow if spot moves to 110 the atm iv will be 20. (mention first scenario). Note the deltas on the x-axis are actually incorrect and dont align with where there corresponding strikes, but to illustrate how the skew curve changes under a sticky strike regime this is enough. As spot moves iv at every stirke is the same, but the deltas shift.
+Essentially sticky strike says as spot moves the atm iv will just float along the skew curve, if yesterday spot was 100 with atm iv 22 and the 105 strike iv was 21, then tomorrow if spot moves to 105 the atm iv will be 21. Note the deltas on the x-axis are actually incorrect and dont align with where there corresponding strikes, but to illustrate how the skew curve changes under a sticky strike regime this is enough. As spot moves iv at every stirke is the same, but the deltas shift.
 
-![Spot Vol Beta Term Structure](/assets/images/Fixed-Strike-Scenario-1-2026-07-02.png)
+![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
+Scenario 1: Delta Hedged Long Skew P&L Under Sticky Strike Dynamics
+We construct a portfolio that is long a 95 strike put and short a 105 strike call and buy delta shares to hedge (short risk reversals have negative delta so we buy stock to hedge). We hold this position for 15 days without adjusting the hedge and calculate the P&L.
 
+Put price t1 = 1.058
+Call price t1 = 0.678
+Positions delta = -.465
+Portfolio notional value t1 = 100P_t1 - 100C_t1 + 100$$\Delta$$S_t1 = 4693
 
-Sticky delta is different, this assumption says the atm vol (actually whole skew curve) remains constant. In our above example as spot moves from 100 to 110, atm iv stays at 22, essentially the whole skew curve shifts. (mention second scenarios)
+Put price t1 = 0.058
+Call price t1 = 2.07
+Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 4686
+
+Portfolio P&L = Portfolio notional value t1 - Portfolio notional value t1 = -6.7 
+
+The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which greatly impact our ending P&L.
+
+Sticky delta is different, this assumption says the atm vol (actually whole skew curve) remains constant. In our above example as spot moves from 100 to 105, atm iv stays at 22, essentially the whole skew curve shifts. You will notice now the IV at each corresponding delta stays the same at spot moves around, this is why its called sticky delta.
 
 add second scenario fig
 
@@ -55,7 +69,5 @@ add second scenario fig
 SSR:
 
 Notes: maybe also mentions spot skew and spot kurtosis dymaics
-
-### Risk Reversal 3 Scenarios
 
 In Progress -- Stay Tuned
