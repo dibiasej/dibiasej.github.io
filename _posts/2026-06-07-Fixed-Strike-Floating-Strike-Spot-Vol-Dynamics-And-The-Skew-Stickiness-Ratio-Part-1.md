@@ -117,12 +117,44 @@ Realized SSR:
 $$
 \frac{\dfrac{\partial \sigma_{0}}{\partial F}}
      {\dfrac{\partial \sigma}{\partial K}}
+
+\mathcal{R}_T =
+\frac{
+\sum_i \left(\hat{\sigma}_{i+1} - \hat{\sigma}_i\right)
+\ln\left(\frac{S_{i+1}}{S_i}\right)
+}{
+\sum_i
+\left.
+\frac{d\hat{\sigma}_{KT}}{d\ln K}
+\right|^{i}_{S}
+\ln\left(\frac{S_{i+1}}{S_i}\right)^2
+}
 $$
 
-The numerator in this can literally be estimated as the beta coefficient from a regression of changes in atm IV against log returns (Forward prices)
+The numerator in this can literally be estimated as the beta coefficient from a regression of changes in atm IV against log returns (Forward prices) and the denominator is estimates from the implied skew curve at a given date. In the below chart I used the second formula which came directly from Bergomi smile dynamics 4 paper where the SSR was originally introduced. Its important to note in the calculation of formula two it is not a traditional realized spot vol beta calculation because we include the implied skew in the summation with log returns squared in the denominator. I'm not sure if we can use an instantaneous implied skew slop estimate in the denominator here or one taked from actual data (like 90% - 110%) because it isnt technically realized it would be estimated from a model so I derive it using market data.
+
+![Realized Skew Stickiness Ratio](/assets/images/SPY-SSRS-Post-2026-07-02.png)
 
 Implied SSR:
 
+$$
+R(T)
+=
+\frac{
+\mathbb{E}\!\left[d\hat{\sigma}_{ATM}(T)\, d\ln S\right]
+}{
+\psi(T)\,\mathbb{E}\!\left[(d\ln S)^2\right]
+}
+$$
+$$
+R_{t,T}
+=
+\frac{1}{S_t \,\psi_T}
+\frac{\partial_t \left\langle \sigma^T, \log S \right\rangle}
+{\partial_t \left\langle \log S, \log S \right\rangle}
+$$
+
+The implied SSR is calculated from model parameters
 
 Notes: maybe also mentions spot skew and spot kurtosis dymaics
 
