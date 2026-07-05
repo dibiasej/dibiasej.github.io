@@ -52,15 +52,8 @@ I want to illustrate below how these regimes will affect a delta hedged short ri
 Scenario 1: Delta Hedged Long Skew P&L Under Sticky Strike Dynamics
 
 $$
-P(S_{t_1}, t_1) = 1.058
-$$
-
-$$
-C(S_{t_1}, t_1) = 0.678
-$$
-
-$$
-\Delta_{t_1} = -0.465
+\begin{aligned} P(S_{t_1}, t_1) &= 1.058\qquad C(S_{t_1}, t_1) &= 0.678\qquad \Delta_{t_1} &= -0.465
+\end{aligned}
 $$
 
 $$
@@ -68,13 +61,9 @@ $$
 $$
 
 $$
-P(S_{t_2}, t_2) = 0.058
+\begin{aligned} P(S_{t_2}, t_2) &= 0.058\qquad C(S_{t_2}, t_2) &= 2.070
+\end{aligned}
 $$
-
-$$
-C(S_{t_2}, t_2) = 2.07
-$$
-
 
 $$
 \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686
