@@ -11,7 +11,7 @@ Today I want to talk about some topics in the volatility space that confused me 
 I am going to start off by simply defining these terms and maybe giving you a few pictures to hammer home the meanings. A great way to think about these which was elequantly defined by Benn Eifert from QVR is "Sticky strike and sticky delta refer to spot vol dynamics and fixed stirke and floating strike vol are specific parameters of the volatility surface". Not sure if this is an exact quote but close enough. That definition is something you should keep in your head especially as we move forward thoughout this post (and in future posts) and I will often go back to it.
 
 ### Fixed Strike - Floating Strike Volatility
-What does it mean to parameterize a volatility surface, well in mathematical terms we can represent the volatility surface as some function $\sigma(.)$ that has specific parameters that when we plug them in we get an implied volatility. On a fixed strike basis the parameters would be strike K and maturity T $\sigma(K, T)$. In general I like to think about the parameterization of the volatility suraface as how we define the x-axis, for fixed strike we use our strikes and for floating strike it would be something like delta $\sigma(\Delta, T)$ or moneyness $\sigma(k, T)$ ($k = K / F$). How we define our parameterizations becomes especially important in stochastic volatility modeling where using either a fixed or floating strike parameterization will change the dynamics of our implied volatility process, atmf instantaneous skew, SSR and P&L dynamics.
+What does it mean to parameterize a volatility surface, well in mathematical terms we can represent the volatility surface as some function $\sigma(.)$ that has specific parameters that when we plug them in we get an implied volatility. On a fixed strike basis the parameters would be strike K and maturity T $\sigma(K, T)$. In general I like to think about the parameterization of the volatility suraface as how we define the x-axis, for fixed strike we use our strikes and for floating strike it would be something like delta $\sigma(\Delta, T)$ or moneyness $\sigma(k, T)$ ($k = K / F$). How we define our parameterizations becomes especially important in stochastic volatility modeling where using either a fixed or floating strike parameterization will change the dynamics of our implied volatility process, ATMF instantaneous skew, SSR and P&L dynamics.
 
 What really helped me understand these topics is reading through Emanuel Dermans volatility class lectures. In the lectures he explores fixed strike and floating strike vol from a time series perspective and I want to show that here. Below I show a time series of multiple fixed strike volatilities, that means at the starting date we choose an option with a specific strike and plot how that same strike option changes everyday, in our example we start at 2026-01-01 and set the strike to be 660 on the lower end and 700 on the higher end when spot is at 680. Every day going forward we plot the same IV for those strike options keeping them fixed.
 
@@ -23,11 +23,11 @@ Next we show similar graphs for a floating strike volatility time series. Rememb
 
 ![Floating Strike Vol](/assets/images/SPY_Floating_Strike_Vol-2026-06-30.png)
 
-Usually when someone plots a rolling chart of some implied volatility metric it is usually a constant maturity floating strike volatility. For example if you ever see someone post a chart of the ATM IV it is 99% of the time a constant maturity floating stirke ATM IV but nobody ever defined it like that. Another common example is the VIX, this is a constant maturity floating strike volatility metric. the disticntion between fixed and floating strike IV is hardly made but it is important as the below example illustrates.
+Usually when someone plots a rolling chart of some implied volatility metric it is usually a constant maturity floating strike volatility. For example if you ever see someone post a chart of the ATM IV it is 99% of the time a constant maturity floating stirke ATM IV but nobody ever defines it like that. Another common example is the VIX, this is a constant maturity floating strike volatility metric. the disticntion between fixed and floating strike IV is hardly made but it is important as the below example illustrates.
 
 If you are trying to trade a pure long volatility position by, lets say, buying a straddle and delta hedging it, you usually start buy buying the ATM put and call. The issue is positions and trades are not floating strike, they have to be discretely rehedged to become semi floating strike. If you buy a delta hedged straddle today and dont look at it for a week more likely then not the original spot price will have moved away from ATM and it is no longer ATM anymore. On fixed strike basis how vol chnages is hugely important to our positions P&L, did fixed strike follow the skew curve, did the fixed strike vol meaningfully outperform the skew curve. These are all things options traders look at and need to know and will bring us to our next topic but I briefly want to touch on fixed strike and floating strike skew.
 
-Fixed strike skew and floating strike skew is another topic that confused me for a while and to gain clarification it is important to note that these are not the same as the definitions for fixed strike and floating strike vol I described above. Fixed strike skew can be though of as a volatility independent measure of the skew curve and floating stirke skew can be though of as a volatility dependent measure of the skew curve
+Fixed strike skew and floating strike skew is another topic that confused me for a while and to gain clarification it is important to note that these are not the same as the definitions for fixed strike and floating strike vol I described above. Fixed strike skew can be thought of as a volatility independent measure of the skew curve and floating stirke skew can be thought of as a volatility dependent measure of the skew curve
 
 Fixed strike skew = 90% moneyness IV - 110% moneyness IV
 
@@ -55,25 +55,21 @@ I want to illustrate below how these regimes will affect a delta hedged short ri
 
 Time 1:
 
-$P(S_{t_1}, t_1) = 1.058 \quad C(S_{t_1}, t_1) = 0.678 \qquad \Delta_{t_1} = -0.465$
+$\quad P(S_{t_1}, t_1) = 1.058 \quad C(S_{t_1}, t_1) = 0.678 \qquad \Delta_{t_1} = -0.465$
 
-$
-\Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 4693
-$
+$\quad \Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 4693$
 
 Time 2:
 
-$P(S_{t_2}, t_2) = 0.058 \quad C(S_{t_2}, t_2) = 2.07$
+$\quad P(S_{t_2}, t_2) = 0.058 \quad C(S_{t_2}, t_2) = 2.07$
 
-$
-\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686
-$
+$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686$
 
 Final:
 
-$
+$$
 \mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
-$
+$$
 
 The important thing is that under sticky strike both positions initial IV does not change from $t_1$ to $t_2$ which impacts our ending P&L.
 
@@ -81,11 +77,9 @@ The important thing is that under sticky strike both positions initial IV does n
 
 We have the same initial put price, call price and position delta, but because our option positions IV change at t2 we will get different prices.
 
-$P(S_{t_2}, t_2) = 0.13 \qquad C(S_{t_2}, t_2) = 2.73$
+$\quad P(S_{t_2}, t_2) = 0.13 \qquad C(S_{t_2}, t_2) = 2.73$
 
-$
-\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4627
-$
+$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4627$
 
 $$
 \boxed{\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -66}
@@ -95,27 +89,27 @@ $$
 
 In this scenario we actually lost more money. Generally for a skew position to be profitable we want the floating strike vol to outperform the fixed strike vol which in this sceanrio actually happend, so why didn't our portfolio make money? Well there are a lot of caveats to this but essentially the outperformance of the floating strike call vol overpowered the floating strike put vol. 
 
-In this particualr scenario where spot moves up we get shorter vega (approaching short call) and suffer more from the call iv rising. For a long skew position to be profitable when spot increases we would ideally like a regime where floaitng strike vol outperforms fixed strike on the put side, and on the call side fixed strike vol "rolls under" our delta strike vol. This brings us to our third regime dynamic, sticky local volatility.
+In this particualr scenario where spot moves up we get shorter vega (approaching short call) and suffer more from the call IV rising. For a long skew position to be profitable when spot increases we would ideally like a regime where floaitng strike vol outperforms fixed strike on the put side, and on the call side fixed strike vol "rolls under" our delta strike vol.
 
-Scenario 3: Delta Hedged Long Skew P&L Under Sticky Local Volatility Dynamics
+**Scenario 3: Sticky Local Volatility Dynamics Delta Hedged Long Skew P&L**
 
-Local volatility is another way of modeling vol where we assume the instantaneous volatility is a function of the current asst price and time $$\sigma_{loc} = \sigma_{loc}(S, t)$$. My favorite definition of local volatility once again comes from Emanuel Dermans lecture series where he defines local vol as the volatility that justifies current option prices given spot is at a certain level at a certain time. In the sticky local vol regime we assume that ATM IV rises as the market falls, ie negative spot vol correlation. But unlike the other volatility dynamics sticky local vol is not a unique transformation of the smile, as spot moves the exact way the skew rotates depends on the calibrated local volatility surface. Below we show a skew shift that would be advantageous to our Long skew position.
+Local volatility is another way of modeling vol where we assume the instantaneous volatility is a function of the current asst price and time $$\sigma_{t} = \sigma_(S_t, t)$$. My favorite definition of local volatility once again comes from Emanuel Dermans lecture series where he defines local vol as the volatility that justifies current option prices given spot is at a certain level and time in the future. 
+
+In the sticky local vol regime we assume that ATM IV rises as the market falls, ie negative spot vol correlation. But unlike the other volatility dynamics sticky local vol is not a unique transformation of the smile, as spot moves the exact way the skew rotates depends on the calibrated local volatility surface. Below we show a skew shift that would be advantageous to our Long skew position.
 
 ![Sticky Local Vol Dynamics](/assets/images/Sticky-Local-Vol-Dynamics-Scenario-3-2026-07-02.png)
 
-Remeber in this scenario the 95 strike put IVs rise from t1 to t2 and the 105 strike call IVs fall.
+Time 1:
 
-$P(S_{t_1}, t_1) = 1.147 \qquad C(S_{t_1}, t_1) = 1.04 \qquad \Delta = -.5$
+$\quad P(S_{t_1}, t_1) = 1.147 \qquad C(S_{t_1}, t_1) = 1.04 \qquad \Delta = -.5$
 
-$
-\Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 5200
-$
+$\quad \Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 5200$
 
-$P(S_{t_2}, t_2) = 0.12 \qquad C(S_{t_2}, t_2) = 2.15$
+Time 2:
 
-$
-\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 5247
-$
+$\quad P(S_{t_2}, t_2) = 0.12 \qquad C(S_{t_2}, t_2) = 2.15$
+
+$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 5247$
 
 $$
 \boxed{\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = 47}
@@ -123,27 +117,30 @@ $$
 
 You can see in this regime dynamic we actually make money on the long skew trade.
 
-Now I didn't actually mention what my delta was in any of these scenarios and this is an important piece. For the first two scenarios it was -.47 and the third was -.5 and so we buy stock against that to hedge. But the thing is here I used a basic Black Scholes delta, in reality when you are trading skew you would want to use a "skew delta" which essentially adjusts our delta for how vol will move when spot moves. For equities this will give us a lower delta than BS because if we assume a negative spot vol correlation. 
+#### A Note on Deltas
+In each scenario I used a basic Black Scholes delta, in reality when you are trading skew you would want to use a "skew delta" which essentially adjusts our delta for how vol will move when spot moves. The Black–Scholes delta is the correct hedge only if implied volatility does not change when spot moves. For equities this will give us a lower delta than BS because we assume a negative spot vol correlation. Once you assume smile dynamics, the hedge becomes:
 
 $$
 \Delta = \Delta_{BS} + \text{Vega}\,\frac{\partial \sigma_{\mathrm{imp}}(S,K,T)}{\partial S}
 $$
 
-Each regime dynamic gives us a different skew delta. Under sticky delta our skew delta is greater than BS delta, under sticky local vol it is greater under sticky strike we get the same as BS delta. Skew delta is a big topic and there are many different formulas for it and can be model dependent. How important are these regime dynamics to trading though? To quote Benn Eifert once again it is probably best if you just forget sticky strike and sticky delta exist all together. I know I just spend the last part of the article talking about sticky stirke and sticky delta but they really are more educational and used to frame how we can start to think about spot vol dynamics. Most traders or quants model spot vol dynamics themselves and bake that number into there skew delta calculation. One way to do this, and what we talk about next, is the skew stickiness ratio (SSR).
+Each spot vol regime implies a different relationship between changes in the underlying asset and changes in implied volatility. As a result, there is no single "correct" skew delta. Instead, skew delta is model-dependent, and different models produce different corrections to the standard Black-Scholes delta. The appropriate choice often depends on the asset class and market being traded. For example, the Bartlett delta is widely regarded as the market standard for interest rate options because it accounts for the smile dynamics observed under the SABR model.
+
+How important are the simple sticky-strike and sticky-delta assumptions in practice? To quote Benn Eifert once again, it is probably best to forget that sticky strike and sticky delta even exist. I know I just spend the last part of the article talking about sticky strike and sticky delta but there really more educational and used to frame how we can start to think about spot vol dynamics. Most traders or quants model spot vol dynamics themselves and bake that number into there skew delta calculation. One way to do this, and what we talk about next, is the skew stickiness ratio (SSR).
 
 ### Skew Stickiness Ratio (SSR)
-How ATM IV moves with respect to spot really never follows sticky strike, sticky delta or the skew curve. When spot moves the corresponding move in vol is steeper than the skew would imply. The SSR takes this affect into account when determining spot vol dynamics then normalizes it by the skew curve. The SSR was created by Lorenzo Bergomi and he first introduced it in his paper smile dynamics 4. The SSR is basically telling us when spot moves how much do we expect ATM vol to move with it. A general formual for it can be defined as:
+ATM implied volatility rarely moves according to pure sticky strike or sticky delta dynamics. As the underlying price changes, the movement in ATM volatility is typically larger than would be implied by simply sliding along the volatility skew. The Skew Stickiness Ratio (SSR) was introduced by Lorenzo Bergomi in Smile Dynamics IV to quantify this relationship. Intuitively, the SSR measures how much the ATM implied volatility is expected to move for a given move in the underlying, relative to the slope of the implied volatility skew. In other words, it provides a normalized measure of the market's spot vol dynamics. A general definition of the SSR is:
 
 $$
 SSR = \frac{\dfrac{\partial \sigma_{0}}{\partial F}}
      {\dfrac{\partial \sigma}{\partial K}}
 $$
 
-The numerator can literally be estimated as the beta coefficient from a regression of changes in atm IV against log returns (Forward prices) and the denominator is estimates from the implied skew curve at a given date. For equities the SSR is usally around 1.5 but in left tail scenarios we can see it jump to 2. If the market did actually follow one of out above defined spot vol dynamic regimes we would get a SSR = 1 under sticky strike, SSR = 0 under sticky delta and SSR = 2 under sticky local vol. 
+The numerator is simply the beta coefficient from a regression of changes in ATM implied volatility against log returns (or log forward returns for futures and rates markets). The denominator can be calculated from the ATMF implied skew at a given point in time. For equity markets, the SSR is typically around 1.5, although during periods of market stress and large left-tail moves it can increase toward 2. If the market were to follow one of the spot vol regimes discussed earlier, the SSR would take on values: SSR = 1 under sticky strike, SSR = 0 under sticky delta, and SSR = 2 under sticky local volatility.
 
 There are multiple formulations of the SSR but just like most things in the volatility world there is an implied version derived from a model and a realized version derived from market data.
 
-Realized SSR:  
+**Realized SSR:**  
 
 $$
 
@@ -160,13 +157,13 @@ $$
 }
 $$
 
-In the below chart I used the above formula which came directly from Bergomi smile dynamics 4 paper where the SSR was originally introduced. Its important to note in this calculation it is not a traditional realized spot vol beta calculation because we include the implied skew in the summation with log returns squared in the denominator. I'm not sure if we can use an instantaneous implied skew slop estimate in the denominator here or one from actual data (like 90% - 110%) because it isnt technically realized it would be estimated from a model so I derive it using market data.
+In the chart below, I estimate the realized SSR using the estimator above proposed by Bergomi in Smile Dynamics IV, where the concept was originally introduced. Unlike a traditional realized spot vola beta calculation we include the ATMF implied skew in the summation with log returns squared in the denominator. You can estimate the ATMF skew slope using a finite-difference approximation of neighboring strikes or moneyness levels (95% Put IV - 105% Call IV) or you can use certain parameters derived from calibrating a stochastic volatility model.
 
 ![Realized Skew Stickiness Ratio](/assets/images/SPY-SSRS-Post-2026-07-02.png)
 
 The value of SSR is typically between 1 and 2 and 1.5 on average for equties but as with any realized calculation it is an estimate and can get messy so that is why we see values jump above 2.
 
-Implied SSR:
+**Implied SSR:**
 
 <div style="text-align:center; font-size:1.4em;">
 
@@ -193,7 +190,7 @@ $$
 
 </div>
 
-Both above formulas are the same. The implied SSR is calculated from model parameters so its formulation can be model dependent. We can use the SSR derived from some model to actually test how well the model describes market dynamics. Some volatility models have an amazing fit for the surface but there SSR is completely off, this is the case for Local vol models where we get an exact surface fit, but and SSR of 2 which isnt an accurate description of spot vol dynamics. I am not sure about this but the only analytically tractable implied SSR I could find is from the 2-factor Bergomi model, which makes sense because he literally created the SSR, but I show the formula below:
+Both above formulas are the same. The implied SSR is calculated from model parameters so its formulation can be model dependent. We can use the SSR derived from some model to actually test how well the model describes market dynamics. Some volatility models have an amazing fit for the surface but there SSR is completely off, this is the case for Local vol models where we get an exact surface fit, but and SSR of 2 which isnt an accurate description of spot vol dynamics. The only analytically tractable implied SSR I could find is from the 2-factor Bergomi model, which makes sense because he literally created the SSR, but I show the formula below:
 
 $$
 R(T)
@@ -206,6 +203,6 @@ R(T)
 $$
 
 ### Conclusion
-In this post I really only scrathced the surface (no pun intended) on spot vol dynamics, fixed strike and floating strike and the SSR. A lot of the stuff I touched on only measure how spot moves with the ATM IV but what about other parts of the surface? Just like we estimate a beta for the change in ATM IV wrt spot we can estimate how a risk reversal (skew) or butterfly (convexity) change with spot. We can also replace the ATM IV in the SSR with some floating strike vol like 90% moneyness or 25 delta put and calculate the SSR wrt those vols. There is litterally a whole surface to explore and modeling how the whole surface changes as spot changes can give vol traders a huge edge. This is something I would like to explore in future posts but I'm sure your tired of reading this one so we end it here. I hope you enjoyed and learned someting, also if you are a practicioner in the field and want to connect you can find my LinkedIn on the home page of this website, I would love to learn more if there is anything you can introduce to me!
+In this post I really only scratched the surface (no pun intended) on spot vol dynamics, fixed strike and floating strike and the SSR. A lot of the stuff I touched on only measure how spot moves with the ATM IV but what about other parts of the surface? Just like we estimate a beta for the change in ATM IV wrt spot we can estimate how a risk reversal (skew) or butterfly (convexity) change with spot. We can also replace the ATM IV in the SSR with some floating strike vol like 90% moneyness or 25 delta put and calculate the SSR wrt those vols. There is litterally a whole surface to explore and modeling how the whole surface changes as spot changes can give vol traders a huge edge. This is something I would like to explore in future posts but I'm sure your tired of reading this one so we end it here. I hope you enjoyed and learned someting, also if you are a practicioner in the field and want to connect you can find my LinkedIn on the home page of this website, I would love to learn more if there is anything you can introduce to me!
 
 In Progress -- Stay Tuned
