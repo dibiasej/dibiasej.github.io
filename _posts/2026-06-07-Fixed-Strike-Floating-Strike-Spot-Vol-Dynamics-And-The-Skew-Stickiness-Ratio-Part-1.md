@@ -49,41 +49,56 @@ Its important to note that there are other spot vol regimes. For example Collin 
 
 I want to illustrate below how these regimes will affect a delta hedged short risk reversal, ie long skew. In my examples I will use a linearly inverted skew curve for simplicity, and show how the value of our option positions will change based on a move in spot and a move in the skew curve over a 15 day period. We construct a portfolio $$\Pi$$ that is long a 95 strike put and short a 105 strike call and buy delta shares to hedge (short risk reversals have negative delta so we buy stock to hedge). We hold this position for 15 days without adjusting the hedge and calculate the P&L. As will see below in both regimes our position will lose money.
 
-Scenario 1: Delta Hedged Long Skew P&L Under Sticky Strike Dynamics
-
-$$
-P(S_{t_1}, t_1) = 1.058
-$$
-
-$$
-C(S_{t_1}, t_1) = 0.678
-$$
-
-$$
-\Delta_{t_1} = -0.465
-$$
-
-$$
-\Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 4693
-$$
-
-$$
-P(S_{t_2}, t_2) = 0.058
-$$
-
-$$
-C(S_{t_2}, t_2) = 2.07
-$$
-
-$$
-\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686
-$$
-
-$$
-\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
-$$
+### Scenario 1: Delta Hedged Long Skew P&L
+**Sticky Strike Dynamics**
 
 ![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
+
+Time \(t_1\)
+
+$$
+\begin{aligned}
+P(S_{t_1},t_1) &= 1.058\\
+C(S_{t_1},t_1) &= 0.678\\
+\Delta_{t_1} &= -0.465\\[6pt]
+\Pi_{t_1}
+&=
+100P(S_{t_1},t_1)
+-100C(S_{t_1},t_1)
++100\Delta_{t_1}S_{t_1}
+\\
+&=4693
+\end{aligned}
+$$
+
+Time \(t_2\)
+
+$$
+\begin{aligned}
+P(S_{t_2},t_2) &= 0.058\\
+C(S_{t_2},t_2) &= 2.070\\
+\Delta_{t_2} &= -0.488\\[6pt]
+\Pi_{t_2}
+&=
+100P(S_{t_2},t_2)
+-100C(S_{t_2},t_2)
++100\Delta_{t_2}S_{t_2}
+\\
+&=4686
+\end{aligned}
+$$
+
+Final P&L
+
+$$
+\boxed{
+\mathrm{P\&L}
+=
+\Pi_{t_2}-\Pi_{t_1}
+=
+-6.7
+}
+$$
 
 The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which impacts our ending P&L.
 
