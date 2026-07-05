@@ -51,19 +51,36 @@ I want to illustrate below how these regimes will affect a delta hedged short ri
 
 Scenario 1: Delta Hedged Long Skew P&L Under Sticky Strike Dynamics
 
+<div style="text-align: left;">
+
+Time 1: \(S = 100,\; t_1 = \frac{30}{365}\)
+
 $$
-\begin{aligned} P(S_{t_1}, t_1) &= 1.058\qquad C(S_{t_1}, t_1) &= 0.678\qquad \Delta_{t_1} &= -0.465
-\end{aligned}
+P(S_{t_1}, t_1) = 1.058
+$$
+
+$$
+C(S_{t_1}, t_1) = 0.678
+$$
+
+$$
+\Delta_{t_1} = -0.465
 $$
 
 $$
 \Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 4693
 $$
 
+Time 2: \(S = 105,\; t_2 = \frac{15}{365}\)
+
 $$
-\begin{aligned} P(S_{t_2}, t_2) &= 0.058\qquad C(S_{t_2}, t_2) &= 2.070
-\end{aligned}
+P(S_{t_2}, t_2) = 0.058
 $$
+
+$$
+C(S_{t_2}, t_2) = 2.07
+$$
+
 
 $$
 \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686
@@ -72,6 +89,8 @@ $$
 $$
 \mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
 $$
+
+</div>
 
 ![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
