@@ -49,8 +49,7 @@ Its important to note that there are other spot vol regimes. For example Collin 
 
 I want to illustrate below how these regimes will affect a delta hedged short risk reversal, ie long skew. In my examples I will use a linearly inverted skew curve for simplicity, and show how the value of our option positions will change based on a move in spot and a move in the skew curve over a 15 day period. We construct a portfolio $$\Pi$$ that is long a 95 strike put and short a 105 strike call and buy delta shares to hedge (short risk reversals have negative delta so we buy stock to hedge). We hold this position for 15 days without adjusting the hedge and calculate the P&L. As will see below in both regimes our position will lose money.
 
-### Scenario 1: Delta Hedged Long Skew P&L
-**Sticky Strike Dynamics**
+##### Scenario 1: Sticky Strike Dynamics Delta Hedged Long Skew P&L
 
 ![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
@@ -76,24 +75,20 @@ $
 \mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
 $
 
-The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which impacts our ending P&L.
+The important thing is that under sticky strike both positions initial IV does not change from $t_1$ to $t_2$ which impacts our ending P&L.
 
-Scenario 2: Delta Hedged Long Skew P&L Under Sticky Delta Dynamics
+**Scenario 2: Sticky Delta Dynamics Delta Hedged Long Skew P&L**
 
 We have the same initial put price, call price and position delta, but because our option positions IV change at t2 we will get different prices.
 
-$P(S_{t_2}, t_2) = 0.13$
+$P(S_{t_2}, t_2) = 0.13 \qquad C(S_{t_2}, t_2) = 2.73$
 
-$$
-C(S_{t_2}, t_2) = 2.73
-$$
-
-$$
+$
 \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4627
-$$
+$
 
 $$
-\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -66
+\boxed{\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -66}
 $$
 
 ![Sticky Delta Vol Dynamics](/assets/images/Sticky-Delta-Scenario-2-2026-07-02.png)
@@ -110,32 +105,20 @@ Local volatility is another way of modeling vol where we assume the instantaneou
 
 Remeber in this scenario the 95 strike put IVs rise from t1 to t2 and the 105 strike call IVs fall.
 
-$$
-P(S_{t_1}, t_1) = 1.147
-$$
+$P(S_{t_1}, t_1) = 1.147 \qquad C(S_{t_1}, t_1) = 1.04 \qquad \Delta = -.5$
 
-$$
-C(S_{t_1}, t_1) = 1.04
-$$
-
-$$
+$
 \Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 5200
-$$
+$
 
-$$
-P(S_{t_2}, t_2) = 0.12
-$$
+$P(S_{t_2}, t_2) = 0.12 \qquad C(S_{t_2}, t_2) = 2.15$
 
-$$
-C(S_{t_2}, t_2) = 2.15
-$$
-
-$$
+$
 \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 5247
-$$
+$
 
 $$
-\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = 47
+\boxed{\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = 47}
 $$
 
 You can see in this regime dynamic we actually make money on the long skew trade.
