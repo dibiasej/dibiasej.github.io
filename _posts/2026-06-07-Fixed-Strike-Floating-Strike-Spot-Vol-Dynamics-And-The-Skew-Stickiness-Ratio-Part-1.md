@@ -54,51 +54,27 @@ I want to illustrate below how these regimes will affect a delta hedged short ri
 
 ![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
-Time \(t_1\)
+Time 1:
 
-$$
-\begin{aligned}
-P(S_{t_1},t_1) &= 1.058\\
-C(S_{t_1},t_1) &= 0.678\\
-\Delta_{t_1} &= -0.465\\[6pt]
-\Pi_{t_1}
-&=
-100P(S_{t_1},t_1)
--100C(S_{t_1},t_1)
-+100\Delta_{t_1}S_{t_1}
-\\
-&=4693
-\end{aligned}
-$$
+$P(S_{t_1}, t_1) = 1.058 \quad C(S_{t_1}, t_1) = 0.678 \qquad \Delta_{t_1} = -0.465$
 
-Time \(t_2\)
+$
+\Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 4693
+$
 
-$$
-\begin{aligned}
-P(S_{t_2},t_2) &= 0.058\\
-C(S_{t_2},t_2) &= 2.070\\
-\Delta_{t_2} &= -0.488\\[6pt]
-\Pi_{t_2}
-&=
-100P(S_{t_2},t_2)
--100C(S_{t_2},t_2)
-+100\Delta_{t_2}S_{t_2}
-\\
-&=4686
-\end{aligned}
-$$
+Time 2:
 
-Final P&L
+$P(S_{t_2}, t_2) = 0.058 \quad C(S_{t_2}, t_2) = 2.07$
 
-$$
-\boxed{
-\mathrm{P\&L}
-=
-\Pi_{t_2}-\Pi_{t_1}
-=
--6.7
-}
-$$
+$
+\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686
+$
+
+Final:
+
+$
+\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
+$
 
 The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which impacts our ending P&L.
 
