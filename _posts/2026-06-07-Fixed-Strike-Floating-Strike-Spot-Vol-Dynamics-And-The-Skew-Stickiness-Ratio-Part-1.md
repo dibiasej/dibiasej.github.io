@@ -82,9 +82,7 @@ Scenario 2: Delta Hedged Long Skew P&L Under Sticky Delta Dynamics
 
 We have the same initial put price, call price and position delta, but because our option positions IV change at t2 we will get different prices.
 
-$$
-P(S_{t_2}, t_2) = 0.13
-$$
+$P(S_{t_2}, t_2) = 0.13$
 
 $$
 C(S_{t_2}, t_2) = 2.73
