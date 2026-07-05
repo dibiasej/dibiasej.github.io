@@ -48,21 +48,38 @@ Essentially sticky strike says as spot moves the atm iv will just float along th
 
 ![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
-Put price t1 = 1.058
+$$
+P(S_{t_1}, t_1) = 1.058
+$$
 
-Call price t1 = 0.678
+$$
+C(S_{t_1}, t_1) = 0.678
+$$
 
-Positions delta = -.465
+$$
+\Delta_{t_1} = -0.465
+$$
 
-Portfolio notional value t1 = 100P_t1 - 100C_t1 + 100$$\Delta$$S_t1 = 4693
+$$
+\Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 4693
+$$
 
-Put price t2 = 0.058
+$$
+P(S_{t_2}, t_2) = 0.058
+$$
 
-Call price t2 = 2.07
+$$
+C(S_{t_2}, t_2) = 2.07
+$$
 
-Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 4686
 
-Portfolio P&L = Portfolio notional value t1 - Portfolio notional value t1 = -6.7 
+$$
+\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686
+$$
+
+$$
+\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
+$$
 
 The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which greatly impact our ending P&L.
 
