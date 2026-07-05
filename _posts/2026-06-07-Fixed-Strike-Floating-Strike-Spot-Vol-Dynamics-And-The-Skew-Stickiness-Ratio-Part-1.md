@@ -5,7 +5,7 @@ date: 2026-07-04
 ---
 
 ## Intro
-Today I want to talk about some topics in the volatility space that confused me for a long time but are extremely important to understanding volatility modeling and volatility trading nomenclature. The terms fixed strike volatility, floating strike volatility, sticky strike and sticky delta (or alternative version) come up a lot and are sometimes thrown around loosley. On top of that if we throw fixed strike skew and floating strike skew which we can also replace skew with spot vol beta cov, corr, etc... You can see how these terms can get confusing. I've seen many well established successful people in the vol space use these definitions in different ways and that is part of the reason why they can be tricky to get a grasp of, so what I want to do in this post is talk about how I like to think of them and give some examples of there usage in the world of volatility.
+Today I want to talk about some topics in the volatility space that confused me for a long time but are extremely important to understanding volatility modeling and volatility trading nomenclature. The terms fixed strike volatility, floating strike volatility, sticky strike and sticky delta (or alternative version) come up a lot and are sometimes thrown around loosley. On top of that if we throw fixed strike skew and floating strike skew which we can also replace skew with spot vol beta cov, corr, etc... You can see how these terms can get confusing. I've seen many well established successful people in the vol space use these definitions in different ways and that is part of the reason why they can be so confusing. I Speficially hear people use sticky strike and fixed strike interchangeably even though they are different concepts. What I want to do in this post is talk about how I like to think of them and give some examples of there usage in the world of volatility.
 
 ## Definitions
 I am going to start off by simply defining these terms and maybe giving you a few pictures to hammer home the meanings. A great way to think about these which was elequantly defined by Benn Eifert from QVR is "Sticky strike and sticky delta refer to spot vol dynamics and fixed stirke and floating strike vol are specific parameters of the volatility surface". Not sure if this is an exact quote but close enough. That definition is something you should keep in your head especially as we move forward thoughout this post (and in future posts) and I will often go back to it.
@@ -38,15 +38,18 @@ This is best illustrated using a skew term structure at a static point in time. 
 ![Spot Vol Beta Term Structure](/assets/images/SPY-Spot-Vol-Beta-Term-Structure-Post-2026-07-02.png)
 
 ### Spot Vol Dynamics
-As mentioned above spot vol dynamics are wildly important for volatility trading. The profitability of skew trades like a long (short) delta hedged risk reversal directly depend on the dynamics of the volatility surface. Also the delta we should choose to hedge with depends on how we expect vol to move as spot moves. The two most commonly talked about spot vol dynamic "regimes" are sticky strike and sticky delta. 
+As mentioned above spot vol dynamics are wildly important for volatility trading. The profitability of skew trades like a long (short) delta hedged risk reversal directly depend on the dynamics of the volatility surface. Also the delta we should choose to hedge with depends on how we expect vol to move as spot moves. The two most commonly talked about spot vol dynamic "regimes" are sticky strike and sticky delta. Essentially sticky strike says as spot moves the atm iv will just float along the skew curve, if yesterday spot was 100 with atm iv 22 and the 105 strike iv was 21, then tomorrow if spot moves to 105 the atm iv will be 21. As spot moves iv at every stirke stays the same, but the deltas shift. Sticky delta says the atm vol (actually whole skew curve) remains constant with a floating strike parameterization. As spot moves from 100 to 105, atm iv stays at 22, essentially the whole skew curve shifts. The IV at each corresponding delta stays the same at spot moves around, this is why its called sticky delta. 
 
-I want to illustrate below how these regimes will affect a delta hedged short risk reversal, ie long skew. In my examples I will use a linearly inverted skew curve for simplicity, and show how the value of our option positions will change based on a move in spot and a move in the skew curve over a 15 day period. We construct a portfolio that is long a 95 strike put and short a 105 strike call and buy delta shares to hedge (short risk reversals have negative delta so we buy stock to hedge). We hold this position for 15 days without adjusting the hedge and calculate the P&L. As will see below in both regimes our position will lose money.
+Its important to note that there are other spot vol regimes. For example Collin Bennet defines two more in his book "Trading Volatility", one being sticky local vol and jumpy vol. Emanuel Derman also describes a regime he calls sticky implied tree which I believe is the same as sticky local vol but I'm not 100% sure. Fundamentally, a spot vol regime is simply an assumption about how the implied volatility surface responds to changes in the underlying spot price. Each regime therefore inhernetly specifies a different relationship between spot movements and the evolution of fixed-strike vol, floating-strike vol, and the rest of the implied volatility surface.
+
+| Parameterization | Sticky Strike Behavior | Sticky Delta Behavior | Sticky Local Vol Behavior |
+|---|---|---|---|
+| Fixed Strike | Independent of index level | Increases as spot level increases | Increases as spot decreases; decreases as spot increases |
+| Floating Strike | Decreases as spot level increases | Independent of index level | Increases as spot decreases; decreases as spot increases |
+
+I want to illustrate below how these regimes will affect a delta hedged short risk reversal, ie long skew. In my examples I will use a linearly inverted skew curve for simplicity, and show how the value of our option positions will change based on a move in spot and a move in the skew curve over a 15 day period. We construct a portfolio $$\Pi$$ that is long a 95 strike put and short a 105 strike call and buy delta shares to hedge (short risk reversals have negative delta so we buy stock to hedge). We hold this position for 15 days without adjusting the hedge and calculate the P&L. As will see below in both regimes our position will lose money.
 
 Scenario 1: Delta Hedged Long Skew P&L Under Sticky Strike Dynamics
-
-Essentially sticky strike says as spot moves the atm iv will just float along the skew curve, if yesterday spot was 100 with atm iv 22 and the 105 strike iv was 21, then tomorrow if spot moves to 105 the atm iv will be 21. As spot moves iv at every stirke is the same, but the deltas shift.
-
-![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
 $$
 P(S_{t_1}, t_1) = 1.058
@@ -81,47 +84,71 @@ $$
 \mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -6.7
 $$
 
-The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which greatly impact our ending P&L.
+![Sticky Strike Vol Dynamics](/assets/images/Sticky-Strike-Scenario-1-2026-07-02.png)
 
-Scenario 1: Delta Hedged Long Skew P&L Under Sticky Delta Dynamics
+The important thing is that under sticky strike both positions initial IV does not change from t1 to t2 which impacts our ending P&L.
 
-Sticky delta is different, this assumption says the atm vol (actually whole skew curve) remains constant. In our above example as spot moves from 100 to 105, atm iv stays at 22, essentially the whole skew curve shifts. You will notice now the IV at each corresponding delta stays the same at spot moves around, this is why its called sticky delta.
-
-![Sticky Delta Vol Dynamics](/assets/images/Sticky-Delta-Scenario-2-2026-07-02.png)
+Scenario 2: Delta Hedged Long Skew P&L Under Sticky Delta Dynamics
 
 We have the same initial put price, call price and position delta, but because our option positions IV change at t2 we will get different prices.
 
-Put price t2 = 0.13
+$$
+P(S_{t_2}, t_2) = 0.13
+$$
 
-Call price t2 = 2.73
+$$
+C(S_{t_2}, t_2) = 2.73
+$$
 
-Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 4627
+$$
+\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4627
+$$
 
-Portfolio P&L = Portfolio notional value t1 - Portfolio notional value t1 = -66
+$$
+\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -66
+$$
 
-In this scenario we actually lost more money. Generally for a skew position to be profitable we want the floating strike vol to outperform the fixed strike vol which in this sceanrio actually happend, so why didn't our portfolio make money? Well there are a lot of caveats to this but essentially the outperformance of the floating strike call vol overpowered the floaitng strike put vol. In this particualr scenario where spot moves up we get shorter vega (approaching short call) and suffer more from the call iv rising. For a long skew position to be really profitable we would ideally like a regime where floaitng strike vol outperforms fixed strike on the put side, and on the call side fixed strike vol "rolls under" our delta strike vol. This brings us to our third regime dynamic, sticky local volatility.
+![Sticky Delta Vol Dynamics](/assets/images/Sticky-Delta-Scenario-2-2026-07-02.png)
+
+In this scenario we actually lost more money. Generally for a skew position to be profitable we want the floating strike vol to outperform the fixed strike vol which in this sceanrio actually happend, so why didn't our portfolio make money? Well there are a lot of caveats to this but essentially the outperformance of the floating strike call vol overpowered the floating strike put vol. 
+
+In this particualr scenario where spot moves up we get shorter vega (approaching short call) and suffer more from the call iv rising. For a long skew position to be profitable when spot increases we would ideally like a regime where floaitng strike vol outperforms fixed strike on the put side, and on the call side fixed strike vol "rolls under" our delta strike vol. This brings us to our third regime dynamic, sticky local volatility.
 
 Scenario 3: Delta Hedged Long Skew P&L Under Sticky Local Volatility Dynamics
 
-As far as I know this was defined by Collin Bennet in his great book "Trading Volaitility". Local volatility is another way of modeling vol where we assume the instantaneous volatility is a function of the current asst price and time $$\sigma_{loc} = sigma_{loc}(S, t)$$. My favorite definition of local volatility once again comes from Emanuel Dermans lecture series where he defines local vol as the volatility that justifies current option prices given spot is at a certain level at a certain time. I can write a whole post about local vol and maybe one day I will but will leave it at that for now. In the sticky local volatility regime we assume that atm IV rises as the market falls, ie negative spot vol correlation. But unlike the other volatility dynamics sticky local volatility is not a unique transformation of the smile, as spot moves the exact way the skew rotates depends on the calibrated local volatility surface. Below we show a skew shift that would be advantageous to our Long skew position.
+Local volatility is another way of modeling vol where we assume the instantaneous volatility is a function of the current asst price and time $$\sigma_{loc} = \sigma_{loc}(S, t)$$. My favorite definition of local volatility once again comes from Emanuel Dermans lecture series where he defines local vol as the volatility that justifies current option prices given spot is at a certain level at a certain time. In the sticky local vol regime we assume that ATM IV rises as the market falls, ie negative spot vol correlation. But unlike the other volatility dynamics sticky local vol is not a unique transformation of the smile, as spot moves the exact way the skew rotates depends on the calibrated local volatility surface. Below we show a skew shift that would be advantageous to our Long skew position.
 
 ![Sticky Local Vol Dynamics](/assets/images/Sticky-Local-Vol-Dynamics-Scenario-3-2026-07-02.png)
 
 Remeber in this scenario the 95 strike put IVs rise from t1 to t2 and the 105 strike call IVs fall.
 
-Put price t1 = 1.147
+$$
+P(S_{t_1}, t_1) = 1.147
+$$
 
-Call price t1 = 1.04
+$$
+C(S_{t_1}, t_1) = 1.04
+$$
 
-Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 5200
+$$
+\Pi_{t_1} = 100P(S_{t_1},t_1) - 100C(S_{t_1},t_1) + 100\Delta_{t_1}S_{t_1} = 5200
+$$
 
-Put price t2 = 0.12
+$$
+P(S_{t_2}, t_2) = 0.12
+$$
 
-Call price t2 = 2.15
+$$
+C(S_{t_2}, t_2) = 2.15
+$$
 
-Portfolio notional value t2 = 100P_t2 - 100C_t2 + 100$$\Delta$$S_t2 = 5247
+$$
+\Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 5247
+$$
 
-Portfolio P&L = Portfolio notional value t1 - Portfolio notional value t1 = 47 
+$$
+\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = 47
+$$
 
 You can see in this regime dynamic we actually make money on the long skew trade.
 
