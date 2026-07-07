@@ -263,7 +263,7 @@ $$
 
 ![Realized Kurtosis](/assets/images/realized_kurtosis-2026-06-07.png)
 
-I want to add that there is a good paper by the Fed  about estimating the vol-of-vol risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future, Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*. We below I show this where the realized component is calculated as a rolling statistical estimate of volatility of a one month VIX Future.
+I want to add that there is a good paper by the Fed  about estimating the vol-of-vol risk premium where they use the difference between the current level of the VVIX estimate minus the rolling 21 day front month maturity VIX future, Park, Y.-H. (2013). *Volatility of Volatility and Tail Risk Premiums*. Below I show this where the realized component is calculated as a rolling statistical estimate of volatility of a one month VIX Future.
 
 ![VVRP](/assets/images/vol_of_vol_and_vvrp-2026-06-07.png)
 
