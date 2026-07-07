@@ -13,7 +13,7 @@ I am going to start off by simply defining these terms and maybe giving you a fe
 ### Fixed Strike - Floating Strike Volatility
 What does it mean to parameterize a volatility surface, well in mathematical terms we can represent the volatility surface as some function $\sigma(.)$ that has specific parameters that when we plug them in we get an implied volatility. On a fixed strike basis the parameters would be strike K and maturity T $\sigma(K, T)$. In general I like to think about the parameterization of the volatility surface as how we define the x-axis, for fixed strike we use our strikes and for floating strike it would be something like delta $\sigma(\Delta, T)$ or moneyness $\sigma(k, T)$ ($k = K / F$). How we define our parameterizations becomes especially important in stochastic volatility modeling where using either a fixed or floating strike parameterization will change the dynamics of our implied volatility process, ATMF instantaneous skew, SSR and P&L dynamics.
 
-What really helped me understand these concepts was reading through Emanuel Derman's volatility lectures. In those lectures, he explains the difference between fixed strike and floating strike volatility from a time-series perspective, and I think this visualization makes the distinction much clearer. Below, I plot the time series of several fixed strike implied volatilities. At the starting date, I select options with specific strikes and then track the implied volatility of those same strike options over time. In this example, we begin on 2026-01-01 with the underlying trading at 680 and choose strikes ranging from 660 to 700. As time passes, the underlying price and time to expiration change, but each series always represents the implied volatility of the option with it's original fixed strike. For example, the series labeled 660 is simply the implied volatility of the K=660 option on every subsequent trading day.
+What really helped me understand these concepts was reading through Emanuel Derman's volatility lectures. In those lectures, he explains the difference between fixed strike and floating strike volatility from a time-series perspective, and I think this visualization makes the distinction much clearer. Below, I plot the time series of several fixed strike implied volatilities. At the starting date, I select options with specific strikes and then track the implied volatility of those same strike options over time. In this example, we begin on 2026-01-01 with the underlying trading at 680 and choose strikes ranging from 660 to 700. As time passes the underlying price changes but each series always represents the implied volatility of the option with it's original fixed strike. For example, the series labeled 660 is simply the implied volatility of the K=660 option on every subsequent trading day.
 
 ![Fixed Strike Vol](/assets/images/SPY_Fixed_Strike_Vol_2026-06-30.png)
 
@@ -63,7 +63,7 @@ Time 2:
 
 $\quad P(S_{t_2}, t_2) = 0.058 \quad C(S_{t_2}, t_2) = 2.07$
 
-$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4686$
+$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_1}S_{t_2} = 4686$
 
 Final:
 
@@ -81,7 +81,7 @@ We have the same initial put price, call price and position delta, but because o
 
 $\quad P(S_{t_2}, t_2) = 0.13 \qquad C(S_{t_2}, t_2) = 2.73$
 
-$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 4627$
+$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_1}S_{t_2} = 4627$
 
 $$
 \boxed{\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = -66}
@@ -109,7 +109,7 @@ Time 2:
 
 $\quad P(S_{t_2}, t_2) = 0.12 \qquad C(S_{t_2}, t_2) = 2.15$
 
-$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_2}S_{t_2} = 5247$
+$\quad \Pi_{t_2} = 100P(S_{t_2},t_2) - 100C(S_{t_2},t_2) + 100\Delta_{t_1}S_{t_2} = 5247$
 
 $$
 \boxed{\mathrm{P\&L} = \Pi_{t_2} - \Pi_{t_1} = 47}
@@ -179,7 +179,7 @@ R(T)
 \qquad
 R_{t,T}
 &=
-\frac{1}{S_t \,\psi_T}
+\frac{1}{\mathcal{S}_{t,T}}
 \frac{
 \partial_t \left\langle \sigma^T, \log S \right\rangle
 }{
@@ -190,7 +190,7 @@ $$
 
 </div>
 
-Both above formulas are the same. The implied SSR is calculated from model parameters so its formulation can be model dependent. We can use the SSR derived from some model to actually test how well the model describes market dynamics. Some volatility models have an amazing fit for the surface but their SSR is completely off, this is the case for Local vol models where we get an exact surface fit, but an SSR of 2 which isnt an accurate description of spot vol dynamics. The only analytically tractable implied SSR I could find is from the 2-factor Bergomi model, which makes sense because he literally created the SSR, but I show the formula below:
+Where $$\mathcal{S}_{t,T}$$ and $$\psi(T)$$ are representations of the ATM skew. Both above formulas are the same. The implied SSR is calculated from model parameters so its formulation can be model dependent. We can use the SSR derived from some model to actually test how well the model describes market dynamics. Some volatility models have an amazing fit for the surface but their SSR is completely off, this is the case for Local vol models where we get an exact surface fit, but an SSR of 2 which isnt an accurate description of spot vol dynamics. The only analytically tractable implied SSR I could find is from the 2-factor Bergomi model, which makes sense because he literally created the SSR, but I show the formula below:
 
 $$
 R(T)
